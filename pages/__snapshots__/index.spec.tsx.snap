@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`works 1`] = `
+<div>
+  <div>
+    <div>
+      <a>
+        Home
+      </a>
+    </div>
+    <div>
+      <a>
+        About
+      </a>
+    </div>
+    <div>
+      <a>
+        Post
+      </a>
+    </div>
+  </div>
+  <div>
+    <a>
+      About
+    </a>
+  </div>
+</div>
+`;
