@@ -1,12 +1,11 @@
-import Header from '@self/components/Header';
 import useStore from '@self/lib/hooks/useStore';
-import styles from './styles.css';
+import styles from '@self/styles/styles.css';
 
 function Index() {
   let { items } = useStore();
+
   return (
     <div className={styles.container}>
-      <Header />
       <section>
         <h1>Hello</h1>
         <ul>

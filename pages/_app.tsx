@@ -1,6 +1,8 @@
+import Header from '@self/components/Header';
 import Store from '@self/components/Store';
 import fetchStore from '@self/lib/services/fetchStore';
 import App, { Container } from 'next/app';
+import Head from 'next/head';
 import React from 'react';
 
 class Root extends App {
@@ -20,8 +22,14 @@ class Root extends App {
     let { Component, pageProps } = this.props;
     return (
       <Container>
+        <Head>
+          <title>React + Next = 💖</title>
+        </Head>
         <Store init={pageProps.store}>
-          <Component {...pageProps} />
+          <>
+            <Header />
+            <Component {...pageProps} />
+          </>
         </Store>
       </Container>
     );
