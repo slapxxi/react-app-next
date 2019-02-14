@@ -9,9 +9,6 @@ function Header() {
       <Link href="/about" prefetch>
         <a>About</a>
       </Link>
-      <Link href="/post?id=randomid">
-        <a>Post</a>
-      </Link>
     </div>
   );
 }

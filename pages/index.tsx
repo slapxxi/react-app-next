@@ -1,55 +1,22 @@
 import Header from '@self/components/Header';
-import useCounter from '@self/lib/hooks/useCounter';
-import fetchItems from '@self/lib/services/fetchItems';
+import useStore from '@self/lib/hooks/useStore';
+import styles from './styles.css';
 
-interface Props {
-  items: any;
-}
-
-function Index({ items }: Props) {
-  let [counter, setCounter] = useCounter(0, { min: 0, max: 10 });
-
-  function handleIncrement() {
-    setCounter((n) => n + 1);
-  }
-
-  function handleDecrement() {
-    setCounter((n) => n - 1);
-  }
-
+function Index() {
+  let { items } = useStore();
   return (
-    <div>
+    <div className={styles.container}>
       <Header />
-      <p>{counter}</p>
-      <button onClick={handleIncrement}>Increment</button>
-      <button onClick={handleDecrement}>Decrement</button>
-      <ul className="list">
-        {items.map((item) => (
-          <li key={item.id}>
-            {item.id} - {item.title}
-          </li>
-        ))}
-      </ul>
+      <section>
+        <h1>Hello</h1>
+        <ul>
+          {items.map((item) => (
+            <li key={item.id}>{item.title}</li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 }
-
-Index.getInitialProps = async () => {
-  let numberOfAttempts = 0;
-  let items;
-  do {
-    try {
-      numberOfAttempts += 1;
-      if (numberOfAttempts >= 10) {
-        break;
-      }
-      items = await fetchItems();
-      break;
-    } catch {
-      continue;
-    }
-  } while (true);
-  return { items };
-};
 
 export default Index;
