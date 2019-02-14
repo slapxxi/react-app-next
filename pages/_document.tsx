@@ -10,7 +10,6 @@ class RootDocument extends Document {
     return (
       <html lang="en">
         <Head>
-          <style>{`body { margin: 0; font-size: 16px; font-family: sans-serif; }`}</style>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#0A0A15" />
         </Head>

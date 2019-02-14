@@ -1,11 +1,15 @@
+import { Global } from '@emotion/core';
 import Header from '@self/components/Header';
 import Store from '@self/components/Store';
 import fetchStore from '@self/lib/services/fetchStore';
+import { Store as IStore } from '@self/lib/types';
+import globalStyles from '@self/styles/globalStyles';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
-import React from 'react';
 
 class Root extends App {
+  static store: IStore;
+
   static async getInitialProps({ Component, ctx }: any) {
     let pageProps = {};
 
@@ -13,18 +17,24 @@ class Root extends App {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    let store = await fetchStore();
+    if (!this.store) {
+      this.store = await fetchStore();
+    }
 
-    return { pageProps: { ...pageProps, store } };
+    return { pageProps: { ...pageProps, store: this.store } };
   }
 
   render() {
     let { Component, pageProps } = this.props;
+
     return (
       <Container>
         <Head>
           <title>React + Next = 💖</title>
         </Head>
+
+        <Global styles={globalStyles} />
+
         <Store init={pageProps.store}>
           <>
             <Header />
