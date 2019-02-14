@@ -15,8 +15,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@emotion/core": "^10.0.7",
+    "@emotion/styled": "^10.0.7",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
+    "babel-plugin-emotion": "^10.0.7",
     "firebase": "^5.8.2",
     "lodash-es": "^4.17.11",
     "next": "^8.0.1",
