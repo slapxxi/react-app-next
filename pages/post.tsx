@@ -1,15 +1,17 @@
+import Header from '@self/components/Header';
 import { RouterProps, withRouter } from 'next/router';
 
 interface Props {
   router: RouterProps;
 }
 
-function Component({ router }: Props) {
+function Post({ router }: Props) {
   return (
     <div>
-      <h1>{router.query!.title}</h1>
+      <Header />
+      <h1>{router.query!.id}</h1>
     </div>
   );
 }
 
-export default withRouter(Component);
+export default withRouter(Post);
