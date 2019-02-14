@@ -7,8 +7,9 @@ dotenv.config();
 
 module.exports = withTypescript(
   withTM({
+    target: 'serverless',
     transpileModules: ['lodash-es'],
-    publicRuntimeConfig: {
+    env: {
       firebase: {
         apiKey: process.env.FIREBASE_API_KEY,
         authDomain: process.env.FIREBASE_AUTH_DOMAIN,

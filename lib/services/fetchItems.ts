@@ -1,21 +1,19 @@
+import { FirebaseConfiguration } from '@self/lib/types';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import map from 'lodash-es/map';
-import getConfig from 'next/config';
-
-let { publicRuntimeConfig } = getConfig();
 
 try {
-  firebase.initializeApp(publicRuntimeConfig.firebase);
-} catch (e) {}
+  firebase.initializeApp((process.env.firebase as unknown) as FirebaseConfiguration);
+} catch {}
 
 async function fetchItems() {
   return firebase
     .database()
-    .ref('/')
+    .ref('/items')
     .once('value')
     .then((snapshot) =>
-      map(snapshot.val().items, (value, key) => ({
+      map(snapshot.val(), (value, key) => ({
         id: key,
         ...value,
       })),

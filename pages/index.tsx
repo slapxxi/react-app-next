@@ -2,8 +2,12 @@ import Header from '@self/components/Header';
 import useCounter from '@self/lib/hooks/useCounter';
 import fetchItems from '@self/lib/services/fetchItems';
 
-function Index({ items }: any) {
-  let [counter, setCounter] = useCounter(10, { min: 0, max: 3 });
+interface Props {
+  items: any;
+}
+
+function Index({ items }: Props) {
+  let [counter, setCounter] = useCounter(0, { min: 0, max: 10 });
 
   function handleIncrement() {
     setCounter((n) => n + 1);
@@ -19,7 +23,7 @@ function Index({ items }: any) {
       <p>{counter}</p>
       <button onClick={handleIncrement}>Increment</button>
       <button onClick={handleDecrement}>Decrement</button>
-      <ul>
+      <ul className="list">
         {items.map((item) => (
           <li key={item.id}>
             {item.id} - {item.title}
@@ -31,12 +35,20 @@ function Index({ items }: any) {
 }
 
 Index.getInitialProps = async () => {
+  let numberOfAttempts = 0;
   let items;
-  try {
-    items = await fetchItems();
-  } catch (e) {
-    console.log(e);
-  }
+  do {
+    try {
+      numberOfAttempts += 1;
+      if (numberOfAttempts >= 10) {
+        break;
+      }
+      items = await fetchItems();
+      break;
+    } catch {
+      continue;
+    }
+  } while (true);
   return { items };
 };
 
