@@ -1,14 +1,22 @@
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 import useStore from '@self/lib/hooks/useStore';
 
 function Index() {
-  let { items } = useStore();
+  let { state: store } = useStore();
 
   return (
-    <div>
+    <div
+      css={(theme) =>
+        css`
+          color: ${theme.color};
+        `
+      }
+    >
       <section>
-        <h1>Greetings</h1>
+        <h1>Dictionary</h1>
         <ul>
-          {items.map((item) => (
+          {store.items.map((item) => (
             <li key={item.id}>{item.title}</li>
           ))}
         </ul>

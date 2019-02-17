@@ -1,5 +1,7 @@
 export type ID = string;
 
+export type Color = string;
+
 export interface FirebaseConfiguration {
   apiKey: string;
   authDomain: string;
@@ -19,9 +21,28 @@ export interface Item {
 }
 
 export interface Store {
+  state: StoreState;
+  dispatch: () => void;
+}
+
+export interface StoreState {
   items: Item[];
+  settings: {
+    useDarkMode: boolean;
+  };
 }
 
 export interface DB {
   items: { [id: string]: Item };
+  settings: UserSettings;
+}
+
+export interface Theme {
+  background: Color;
+  color: Color;
+  outline: Color;
+}
+
+export interface UserSettings {
+  useDarkMode: boolean;
 }
