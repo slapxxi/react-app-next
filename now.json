@@ -1,5 +1,7 @@
 {
-  "alias": "next-react-app.now.sh",
+  "name": "next-react-app",
+  "alias": "mushymesh.tech",
+  "regions": ["bru"],
   "version": 2,
   "builds": [{ "src": "next.config.js", "use": "@now/next" }],
   "env": {
