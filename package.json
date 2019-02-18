@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "alias": "next-react-app.now.sh",
   "scripts": {
     "start": "next start",
     "build": "next build",
