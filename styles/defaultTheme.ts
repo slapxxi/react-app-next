@@ -1,9 +1,9 @@
 import { Theme } from '@self/lib/types';
 
 let defaultTheme: Theme = {
-  background: 'white',
-  color: 'black',
-  outline: 'black',
+  background: '#fcfcff',
+  color: '#112',
+  outline: '#112',
 };
 
 export default defaultTheme;

@@ -1,7 +1,12 @@
 import { css } from '@emotion/core';
 import darkTheme from './darkTheme';
+import defaultTheme from './defaultTheme';
 
 let defaultStyles = css`
+  html {
+    background: ${defaultTheme.background};
+  }
+
   body {
     padding: 0;
     margin: 0;

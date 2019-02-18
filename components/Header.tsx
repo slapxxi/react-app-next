@@ -3,7 +3,7 @@ import { css, jsx } from '@emotion/core';
 import useStore from '@self/lib/hooks/useStore';
 import defaultTheme from '@self/styles/defaultTheme';
 import Link from 'next/link';
-import InboxIcon from './icons/InboxIcon';
+import LogoIcon from './icons/LogoIcon';
 import SyncIcon from './icons/SyncIcon';
 import { ThemeProvider } from './themeContext';
 
@@ -12,7 +12,7 @@ let headerStyles = css`
   padding: 1rem;
 `;
 
-let containerStyles = css`
+let listStyles = css`
   display: flex;
   align-items: center;
   list-style: none;
@@ -32,16 +32,16 @@ function Header() {
     <ThemeProvider value={{ ...defaultTheme, outline: 'slategrey' }}>
       <header css={headerStyles}>
         <nav css={{ flex: 1 }}>
-          <ul css={containerStyles}>
+          <ul css={listStyles}>
             <li css={listItemStyles}>
               <Link href="/">
                 <a>
-                  <InboxIcon size={iconSize} />
+                  <LogoIcon size={28} />
                 </a>
               </Link>
             </li>
             <li css={listItemStyles}>
-              <Link href="/about" prefetch>
+              <Link href="/about">
                 <a>About</a>
               </Link>
             </li>
