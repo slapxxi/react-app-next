@@ -30,11 +30,13 @@ export interface StoreState {
   settings: {
     useDarkMode: boolean;
   };
+  lastUpdated: number;
 }
 
 export interface DB {
   items: { [id: string]: Item };
   settings: UserSettings;
+  lastUpdated: number;
 }
 
 export interface Theme {

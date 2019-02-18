@@ -1,5 +1,6 @@
 import updateStore from '@self/lib/services/updateStore';
 import { StoreState, UserSettings } from '@self/lib/types';
+import debounce from 'lodash-es/debounce';
 import { useEffect, useMemo, useReducer } from 'react';
 import { Provider } from './storeContext';
 
@@ -19,21 +20,25 @@ interface Props {
   init: StoreState;
 }
 
+let debouncedUpdateStore = debounce(updateStore, 750, { leading: true });
+
 function Store({ children, init }: Props) {
   let [state, dispatch] = useReducer(storeReducer, init);
-  let value = useMemo(() => ({ state, dispatch }), [state]);
+  let store = useMemo(() => ({ state, dispatch }), [state]);
 
   useEffect(() => {
-    updateStore(state);
+    if (state.lastUpdated !== init.lastUpdated) {
+      debouncedUpdateStore(state);
+    }
   }, [state]);
 
-  return <Provider value={value}>{children}</Provider>;
+  return <Provider value={store}>{children}</Provider>;
 }
 
 function storeReducer(state: StoreState, action: StoreAction): StoreState {
   switch (action.type) {
     case ActionType.updateSettings:
-      return { ...state, settings: action.payload };
+      return { ...state, settings: action.payload, lastUpdated: Date.now() };
     default:
       return state;
   }

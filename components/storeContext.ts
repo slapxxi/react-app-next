@@ -7,8 +7,9 @@ let context = createContext<Store>({
     settings: {
       useDarkMode: false,
     },
+    lastUpdated: 0,
   },
-  dispatch: (action: StoreAction) => null,
+  dispatch: (action: any) => undefined,
 });
 
 let { Provider } = context;

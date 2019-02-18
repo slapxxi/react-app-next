@@ -1,25 +1,24 @@
 import AppContainer from '@self/components/AppContainer';
 import Store from '@self/components/Store';
 import fetchStore from '@self/lib/services/fetchStore';
-import { StoreState } from '@self/lib/types';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
 
 class Root extends App {
-  static store: StoreState;
-
   static async getInitialProps({ Component, ctx }: any) {
     let pageProps = {};
+    let store = {};
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
     }
 
-    if (!this.store) {
-      this.store = await fetchStore();
+    // fetch data on the server or use the store fetching capabilities otherwise
+    if (ctx.req) {
+      store = await fetchStore();
     }
 
-    return { pageProps: { ...pageProps, store: this.store } };
+    return { pageProps: { ...pageProps, store } };
   }
 
   render() {

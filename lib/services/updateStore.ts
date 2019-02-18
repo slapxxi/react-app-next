@@ -18,6 +18,7 @@ function mapStateToDB(state: StoreState): DB {
   return {
     items: state.items.reduce((acc, item) => ({ ...acc, [item.id]: { ...item } }), {}),
     settings: state.settings,
+    lastUpdated: state.lastUpdated,
   };
 }
 
