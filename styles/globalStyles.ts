@@ -1,50 +1,45 @@
 import { css } from '@emotion/core';
-import darkTheme from './darkTheme';
-import defaultTheme from './defaultTheme';
+import { Theme } from '@self/lib/types';
 
-let defaultStyles = css`
+let headings = 'h1,h2,h3,h4,h5,h6';
+
+let sharedStyles = (theme: Theme) => css`
+  ::selection {
+    background-color: ${theme.color.selection};
+  }
+
   html {
-    background: ${defaultTheme.background};
+    font-size: 10px;
+    background: ${theme.color.background};
   }
 
   body {
     padding: 0;
     margin: 0;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
+    font-size: 1.6rem;
+    font-family: ${theme.font.text};
   }
 
   a {
-    color: slateblue;
-
-    :hover {
-      color: slategray;
+    :link,
+    :visited {
+      color: ${theme.color.link};
     }
+
+    :hover,
+    :active {
+      color: ${theme.color.linkActive};
+    }
+  }
+
+  ${headings} {
+    font-family: ${theme.font.heading};
+    color: ${theme.color.heading};
+  }
+
+  p {
+    line-height: 1.5;
   }
 `;
 
-let darkModeStyles = css`
-  html {
-    background: ${darkTheme.background};
-  }
-
-  body {
-    padding: 0;
-    margin: 0;
-    font-size: 16px;
-    font-family: Arial, sans-serif;
-  }
-
-  a {
-    color: slateblue;
-
-    :hover {
-      color: slategray;
-    }
-  }
-`;
-
-function globalStyles(useDarkMode: boolean) {
-  return useDarkMode ? darkModeStyles : defaultStyles;
-}
-export default globalStyles;
+export default sharedStyles;

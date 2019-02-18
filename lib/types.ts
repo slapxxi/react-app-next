@@ -2,6 +2,8 @@ export type ID = string;
 
 export type Color = string;
 
+export type FontFamily = string;
+
 export interface FirebaseConfiguration {
   apiKey: string;
   authDomain: string;
@@ -41,9 +43,19 @@ export interface DB {
 }
 
 export interface Theme {
-  background: Color;
-  color: Color;
-  outline: Color;
+  color: {
+    background: Color;
+    text: Color;
+    heading: Color;
+    outline: Color;
+    link: Color;
+    linkActive: Color;
+    selection: Color;
+  };
+  font: {
+    text: FontFamily;
+    heading: FontFamily;
+  };
 }
 
 export interface UserSettings {

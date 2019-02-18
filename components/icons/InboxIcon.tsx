@@ -1,13 +1,14 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
 import SVGComponent from '@self/components/hocs/SVGComponent';
+import { Theme } from '@self/lib/types';
 
 function InboxIcon() {
   return (
     <g
-      css={(theme) => css`
+      css={(theme: Theme) => css`
         fill: none;
-        stroke: ${theme.outline};
+        stroke: ${theme.color.outline};
       `}
     >
       <path

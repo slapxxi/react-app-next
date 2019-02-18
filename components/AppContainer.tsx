@@ -10,29 +10,24 @@ import Header from './Header';
 
 interface Props extends React.ComponentProps<any> {}
 
+let containerStyles = (theme: Theme) => css`
+  background: ${theme.color.background};
+  color: ${theme.color.text};
+`;
+
 function AppContainer({ children }: Props) {
-  let {
-    state: {
-      settings: { useDarkMode },
-    },
-  } = useStore();
+  let { state } = useStore();
+  let { useDarkMode } = state.settings;
 
   return (
     <ThemeProvider theme={useDarkMode ? darkTheme : defaultTheme}>
-      <Global styles={globalStyles(useDarkMode)} />
+      <Global styles={globalStyles} />
       <section css={containerStyles}>
         <Header />
         {children}
       </section>
     </ThemeProvider>
   );
-}
-
-function containerStyles(theme: Theme) {
-  return css`
-    background: ${theme.background};
-    color: ${theme.color};
-  `;
 }
 
 export default AppContainer;

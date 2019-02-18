@@ -1,7 +1,8 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { jsx } from '@emotion/core';
+import PageContainer from '@self/components/PageContainer';
+import PageHeading from '@self/components/PageHeading';
 import useStore from '@self/lib/hooks/useStore';
-import { Theme } from '@self/lib/types';
 import { ChangeEvent } from 'react';
 
 function Settings() {
@@ -15,8 +16,8 @@ function Settings() {
   }
 
   return (
-    <div css={containerStyles}>
-      <h1>Settings</h1>
+    <PageContainer>
+      <PageHeading>Settings</PageHeading>
       <input
         type="checkbox"
         id="use-dark-theme"
@@ -24,14 +25,8 @@ function Settings() {
         onChange={handleToggleDarkMode}
       />
       <label htmlFor="use-dark-theme">Dark Mode</label>
-    </div>
+    </PageContainer>
   );
-}
-
-function containerStyles(theme: Theme) {
-  return css`
-    color: ${theme.color};
-  `;
 }
 
 export default Settings;
