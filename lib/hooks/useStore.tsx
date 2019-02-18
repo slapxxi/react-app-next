@@ -4,9 +4,10 @@ import { useContext } from 'react';
 import { Store } from '../types';
 
 function useStore() {
-  let { state, dispatch } = useContext(storeContext);
+  let { state, dispatch, isSyncing } = useContext(storeContext);
   return {
     state,
+    isSyncing,
     actions: {
       updateSettings(settings: keyof Store) {
         return dispatch({ type: ActionType.updateSettings, payload: settings });

@@ -22,6 +22,7 @@ export interface Item {
 
 export interface Store {
   state: StoreState;
+  isSyncing: boolean;
   dispatch: () => void;
 }
 

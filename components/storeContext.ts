@@ -9,6 +9,7 @@ let context = createContext<Store>({
     },
     lastUpdated: 0,
   },
+  isSyncing: false,
   dispatch: (action: any) => undefined,
 });
 

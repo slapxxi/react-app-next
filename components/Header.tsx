@@ -1,9 +1,16 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import useStore from '@self/lib/hooks/useStore';
 import defaultTheme from '@self/styles/defaultTheme';
 import Link from 'next/link';
 import InboxIcon from './icons/InboxIcon';
+import SyncIcon from './icons/SyncIcon';
 import { ThemeProvider } from './themeContext';
+
+let headerStyles = css`
+  display: flex;
+  padding: 1rem;
+`;
 
 let containerStyles = css`
   display: flex;
@@ -18,12 +25,13 @@ let listItemStyles = css`
 `;
 
 function Header() {
+  let { isSyncing } = useStore();
   let iconSize = 20;
 
   return (
     <ThemeProvider value={{ ...defaultTheme, outline: 'slategrey' }}>
-      <header>
-        <nav>
+      <header css={headerStyles}>
+        <nav css={{ flex: 1 }}>
           <ul css={containerStyles}>
             <li css={listItemStyles}>
               <Link href="/">
@@ -44,6 +52,11 @@ function Header() {
             </li>
           </ul>
         </nav>
+        {isSyncing ? (
+          <div>
+            <SyncIcon size={iconSize} />
+          </div>
+        ) : null}
       </header>
     </ThemeProvider>
   );

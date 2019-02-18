@@ -6,12 +6,12 @@ try {
   firebase.initializeApp((process.env.firebase as unknown) as FirebaseConfiguration);
 } catch {}
 
-async function updateStore(state: StoreState): Promise<StoreState> {
+async function updateStore(state: StoreState, fn?: () => void): Promise<StoreState> {
   let mappedState = mapStateToDB(state);
   return firebase
     .database()
     .ref('/')
-    .set(mappedState);
+    .set(mappedState, fn);
 }
 
 function mapStateToDB(state: StoreState): DB {

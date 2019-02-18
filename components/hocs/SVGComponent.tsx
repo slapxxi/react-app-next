@@ -3,7 +3,7 @@ interface SVGProps {
   className?: string;
 }
 
-interface Config extends React.SVGProps<SVGElement> {}
+interface Config extends React.SVGAttributes<SVGElement> {}
 
 function SVGComponent(
   Component: React.ComponentType,
@@ -12,12 +12,7 @@ function SVGComponent(
   return (props: SVGProps) => {
     let { size, className, ...rest } = props;
     return (
-      <svg
-        width={size}
-        height={size}
-        viewBox={config && config.viewBox}
-        className={className}
-      >
+      <svg width={size} height={size} className={className} {...config}>
         <Component {...rest} />
       </svg>
     );
