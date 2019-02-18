@@ -23,6 +23,7 @@
     "@zeit/next-bundle-analyzer": "^0.1.2",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
+    "@zeit/next-workers": "^1.0.0",
     "babel-plugin-emotion": "^10.0.7",
     "emotion-theming": "^10.0.7",
     "firebase": "^5.8.3",
@@ -31,7 +32,8 @@
     "next-transpile-modules": "^2.0.0",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
-    "typings-for-css-modules-loader": "^1.7.0"
+    "typings-for-css-modules-loader": "^1.7.0",
+    "worker-loader": "^2.0.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.5",

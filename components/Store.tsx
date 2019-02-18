@@ -1,5 +1,6 @@
+import updateStore from '@self/lib/services/updateStore';
 import { StoreState, UserSettings } from '@self/lib/types';
-import { useMemo, useReducer } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
 import { Provider } from './storeContext';
 
 export enum ActionType {
@@ -21,6 +22,10 @@ interface Props {
 function Store({ children, init }: Props) {
   let [state, dispatch] = useReducer(storeReducer, init);
   let value = useMemo(() => ({ state, dispatch }), [state]);
+
+  useEffect(() => {
+    updateStore(state);
+  }, [state]);
 
   return <Provider value={value}>{children}</Provider>;
 }

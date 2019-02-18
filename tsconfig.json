@@ -4,7 +4,7 @@
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "jsx": "preserve",
-    "lib": ["dom", "es2017"],
+    "lib": ["scripthost", "dom", "es2017"],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,

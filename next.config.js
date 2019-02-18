@@ -5,6 +5,7 @@ let withTypescript = require('@zeit/next-typescript');
 let withTM = require('next-transpile-modules');
 let withCSS = require('@zeit/next-css');
 let withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+let withWorkers = require('@zeit/next-workers');
 
 dotenv.config();
 
@@ -73,4 +74,6 @@ let nextConfig = {
   },
 };
 
-module.exports = withBundleAnalyzer(withTypescript(withCSS(withTM(nextConfig))));
+module.exports = withBundleAnalyzer(
+  withTypescript(withWorkers(withCSS(withTM(nextConfig)))),
+);
