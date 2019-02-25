@@ -59,6 +59,11 @@ let nextConfig = {
       }
     }
 
+    config.module.rules.push({
+      test: /\.mdx$/,
+      use: ['babel-loader', '@mdx-js/loader'],
+    });
+
     config.resolve.alias = {
       ...config.resolve.alias,
       '@self': path.resolve(__dirname),

@@ -7,15 +7,18 @@ import Head from 'next/head';
 class Root extends App {
   static async getInitialProps({ Component, ctx }: any) {
     let pageProps = {};
-    let store = {};
+    let { req } = ctx;
+    let user = req && req.session ? req.session.decodedToken : null;
+    let store;
+
+    if (user) {
+      store = await fetchStore(user, req.firebaseServer);
+    } else {
+      store = await fetchStore(null);
+    }
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
-    }
-
-    // fetch data on the server or use the store fetching capabilities otherwise
-    if (ctx.req) {
-      store = await fetchStore();
     }
 
     return { pageProps: { ...pageProps, store } };
@@ -30,7 +33,7 @@ class Root extends App {
         <Head>
           <title>React + Next = 💖</title>
         </Head>
-        <Store init={pageProps.store}>
+        <Store init={store}>
           <AppContainer>
             <Component {...componentProps} />
           </AppContainer>

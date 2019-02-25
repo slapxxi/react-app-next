@@ -13,11 +13,11 @@ class RootDocument extends Document {
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta name="theme-color" content="#0A0A15" />
           <link
-            href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600|Unna:400,700"
+            href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600|Open+Sans:400,700"
             rel="stylesheet"
           />
         </Head>
-        <body className="custom_class">
+        <body>
           <Main />
           <NextScript />
         </body>

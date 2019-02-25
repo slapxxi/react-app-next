@@ -5,6 +5,7 @@ import { Theme } from '@self/lib/types';
 import defaultTheme from '@self/styles/defaultTheme';
 import styled from '@self/styles/styled';
 import Link from 'next/link';
+import { Avatar } from './Avatar';
 import LogoIcon from './icons/LogoIcon';
 import SyncIcon from './icons/SyncIcon';
 import { ThemeProvider } from './themeContext';
@@ -32,7 +33,6 @@ let linkStyles = css`
 `;
 
 let StyledLink = styled('a')`
-  text-transform: lowercase;
   text-decoration: none;
 
   :link,
@@ -47,7 +47,7 @@ let StyledLink = styled('a')`
 `;
 
 function Header() {
-  let { isSyncing } = useStore();
+  let { isSyncing, state } = useStore();
   let iconSize = 20;
 
   return (
@@ -58,20 +58,32 @@ function Header() {
             <LogoIcon size={28} />
           </a>
         </Link>
+
         <nav>
           <ul css={listStyles}>
-            <li css={listItemStyles}>
-              <Link href="/about">
-                <StyledLink href="/about">About</StyledLink>
-              </Link>
-            </li>
-            <li css={listItemStyles}>
-              <Link href="/settings">
-                <StyledLink href="/settings">Settings</StyledLink>
-              </Link>
-            </li>
+            {state.user ? (
+              <>
+                <li css={listItemStyles}>
+                  <Link href="/projects">
+                    <StyledLink href="/projects">Projects</StyledLink>
+                  </Link>
+                </li>
+                <li css={listItemStyles}>
+                  <Avatar user={state.user} />
+                </li>
+              </>
+            ) : (
+              <>
+                <li css={listItemStyles}>
+                  <Link href="/login">
+                    <StyledLink href="/login">Sign In</StyledLink>
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </nav>
+
         {isSyncing ? (
           <SyncIcon size={iconSize} />
         ) : (

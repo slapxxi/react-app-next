@@ -11,8 +11,8 @@ let darkTheme: Theme = {
     selection: 'hotpink',
   },
   font: {
-    text: 'IBM Plex Sans, sans-serif',
-    heading: 'Unna, Scope One, sans-serif',
+    text: 'IBM Plex Sans, Helvetica, sans-serif',
+    heading: 'Open Sans, Helvetica, sans-serif',
   },
 };
 

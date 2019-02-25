@@ -2,6 +2,10 @@ export type ID = string;
 
 export type Color = string;
 
+export type URL = string;
+
+export type Maybe<T> = T | null;
+
 export type FontFamily = string;
 
 export interface FirebaseConfiguration {
@@ -11,6 +15,11 @@ export interface FirebaseConfiguration {
   projectId: string;
   storageBucket: string;
   messagingSenderId: string;
+}
+
+export interface User extends firebase.User {
+  uid: ID;
+  picture: URL;
 }
 
 export interface UserSettings {
@@ -25,11 +34,11 @@ export interface Item {
 export interface Store {
   state: StoreState;
   isSyncing: boolean;
-  dispatch: () => void;
+  dispatch: (action: any) => void;
 }
 
 export interface StoreState {
-  items: Item[];
+  user: Maybe<User>;
   settings: {
     useDarkMode: boolean;
   };
@@ -37,7 +46,6 @@ export interface StoreState {
 }
 
 export interface DB {
-  items: { [id: string]: Item };
   settings: UserSettings;
   lastUpdated: number;
 }
@@ -56,8 +64,4 @@ export interface Theme {
     text: FontFamily;
     heading: FontFamily;
   };
-}
-
-export interface UserSettings {
-  useDarkMode: boolean;
 }

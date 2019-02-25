@@ -7,16 +7,19 @@ try {
 } catch {}
 
 async function updateStore(state: StoreState, fn?: () => void): Promise<StoreState> {
-  let mappedState = mapStateToDB(state);
-  return firebase
-    .database()
-    .ref('/')
-    .set(mappedState, fn);
+  if (state.user) {
+    let mappedState = mapStateToDB(state);
+    return firebase
+      .database()
+      .ref(`/users/${state.user.uid}`)
+      .set(mappedState, fn);
+  } else {
+    return state;
+  }
 }
 
 function mapStateToDB(state: StoreState): DB {
   return {
-    items: state.items.reduce((acc, item) => ({ ...acc, [item.id]: { ...item } }), {}),
     settings: state.settings,
     lastUpdated: state.lastUpdated,
   };

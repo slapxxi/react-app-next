@@ -5,3 +5,9 @@ declare module '*.worker.ts' {
 
   export default WebpackWorker;
 }
+
+declare module '*.mdx' {
+  let MDXComponent: (props) => JSX.Element;
+  export const meta: object;
+  export default MDXComponent;
+}

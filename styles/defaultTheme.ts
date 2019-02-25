@@ -8,11 +8,11 @@ let defaultTheme: Theme = {
     outline: '#112',
     link: 'hsl(210, 95%, 50%)',
     linkActive: 'hsl(210, 95%, 50%)',
-    selection: 'yellow',
+    selection: 'hsla(200, 95%, 50%, 0.5)',
   },
   font: {
-    text: 'IBM Plex Sans, sans-serif',
-    heading: 'Unna, Scope One, sans-serif',
+    text: 'IBM Plex Sans, Helvetica, sans-serif',
+    heading: 'Open Sans, Helvetica, sans-serif',
   },
 };
 
