@@ -30,11 +30,11 @@
     "emotion-theming": "^10.0.7",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
-    "firebase": "^5.8.4",
+    "firebase": "^5.8.5",
     "firebase-admin": "^7.0.0",
     "lodash-es": "^4.17.11",
     "next": "^8.0.3",
-    "next-transpile-modules": "^2.0.0",
+    "next-transpile-modules": "^2.1.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "session-file-store": "^1.2.0",
@@ -42,7 +42,7 @@
     "worker-loader": "^2.0.0"
   },
   "devDependencies": {
-    "@mdx-js/loader": "^0.19.0",
+    "@mdx-js/loader": "^0.20.0",
     "@types/jest": "^24.0.9",
     "@types/lodash-es": "^4.17.2",
     "@types/next": "^8.0.1",
