@@ -65,3 +65,26 @@ export interface Theme {
     heading: FontFamily;
   };
 }
+
+export interface Project {
+  id: ID;
+  author: User;
+  members: User[];
+  title: string;
+  description: string;
+  createdAt: Date;
+  updatedAt: Maybe<Date>;
+}
+
+export interface Action<Type> {
+  type: Type;
+}
+
+export interface PayloadAction<Type, Payload> {
+  type: Type;
+  payload: Payload;
+}
+
+export interface ValidationError {
+  message: string;
+}

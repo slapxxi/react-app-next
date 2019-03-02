@@ -39,6 +39,10 @@ app.prepare().then(() => {
     next();
   });
 
+  server.get('/projects/:slug', (req, res) => {
+    return app.render(req, res, '/project', { slug: req.params.slug });
+  });
+
   server.post('/api/login', (req, res) => {
     if (!req.body) return res.sendStatus(400);
 

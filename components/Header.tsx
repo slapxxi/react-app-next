@@ -42,7 +42,7 @@ let StyledLink = styled('a')`
 
   :hover,
   :active {
-    color: ${({ theme }) => theme.color.linkActive};
+    color: ${({ theme }) => theme.color.link};
   }
 `;
 

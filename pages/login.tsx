@@ -7,6 +7,7 @@ import useStore from '@self/lib/hooks/useStore';
 import signIn from '@self/lib/services/signIn';
 import signOut from '@self/lib/services/signOut';
 import firebase from 'firebase/app';
+import 'firebase/auth';
 import { useEffect } from 'react';
 
 let provider = new firebase.auth.GithubAuthProvider();
@@ -26,7 +27,7 @@ function Login() {
   }, []);
 
   function handleSignIn() {
-    firebase.auth().signInWithRedirect(provider);
+    firebase.auth().signInWithPopup(provider);
   }
 
   function handleSignOut() {

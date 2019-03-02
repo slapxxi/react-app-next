@@ -7,7 +7,7 @@ let defaultTheme: Theme = {
     heading: 'hsl(220, 30%, 10%)',
     outline: '#112',
     link: 'hsl(210, 95%, 50%)',
-    linkActive: 'hsl(210, 95%, 50%)',
+    linkActive: 'hsl(210, 95%, 60%)',
     selection: 'hsla(200, 95%, 50%, 0.5)',
   },
   font: {

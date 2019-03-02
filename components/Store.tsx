@@ -1,6 +1,6 @@
 import fetchStore from '@self/lib/services/fetchStore';
 import updateStore from '@self/lib/services/updateStore';
-import { StoreState, User, UserSettings } from '@self/lib/types';
+import { Action, StoreState, User, UserSettings } from '@self/lib/types';
 import debounce from 'lodash-es/debounce';
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import { Provider } from './storeContext';
@@ -11,11 +11,6 @@ export enum ActionType {
   signIn = 'SIGN_IN',
   signOut = 'SIGN_OUT',
   setUserData = 'SET_USER_DATA',
-}
-
-interface Action<Type, Payload> {
-  type: Type;
-  payload: Payload;
 }
 
 type StoreAction =

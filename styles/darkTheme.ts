@@ -7,7 +7,7 @@ let darkTheme: Theme = {
     heading: 'hsl(230, 10%, 85%)',
     outline: 'hsl(230, 10%, 95%)',
     link: 'hotpink',
-    linkActive: 'hotpink',
+    linkActive: 'pink',
     selection: 'hotpink',
   },
   font: {

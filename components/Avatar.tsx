@@ -14,7 +14,7 @@ let imgStyles = (theme: Theme) => css`
   border: 2px solid ${theme.color.background};
 
   :hover {
-    border-color: ${theme.color.linkActive};
+    border-color: ${theme.color.link};
   }
 `;
 
