@@ -1,6 +1,7 @@
-import { DB, FirebaseConfiguration, StoreState } from '@self/lib/types';
+import { DB, FirebaseConfiguration, Project, StoreState } from '@self/lib/types';
 import firebase from 'firebase/app';
 import 'firebase/database';
+import reduce from 'lodash-es/reduce';
 
 try {
   firebase.initializeApp((process.env.firebase as unknown) as FirebaseConfiguration);
@@ -20,9 +21,28 @@ async function updateStore(state: StoreState, fn?: () => void): Promise<StoreSta
 
 function mapStateToDB(state: StoreState): DB {
   return {
+    projects: mapProjectsToDBProjects(state.projects),
     settings: state.settings,
     lastUpdated: state.lastUpdated,
   };
+}
+
+function mapProjectsToDBProjects(projects: Project[]): DB['projects'] {
+  return reduce(
+    projects,
+    (acc, project) => {
+      return {
+        ...acc,
+        [project.id]: {
+          title: project.title,
+          description: project.description,
+          createdAt: project.createdAt.getTime(),
+          updatedAt: null,
+        },
+      };
+    },
+    {},
+  );
 }
 
 export default updateStore;

@@ -6,6 +6,7 @@ import PageHeading from '@self/components/PageHeading';
 import useStore from '@self/lib/hooks/useStore';
 import signIn from '@self/lib/services/signIn';
 import signOut from '@self/lib/services/signOut';
+import { SessionContext } from '@self/lib/types';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import { useEffect } from 'react';
@@ -17,6 +18,7 @@ function Login() {
 
   useEffect(() => {
     let unsub = firebase.auth().onAuthStateChanged((user) => {
+      console.log(user);
       if (user) {
         signIn(user).then((user) => actions.signIn(user));
       } else {
@@ -51,7 +53,7 @@ function Login() {
   );
 }
 
-Login.getInitialProps = async ({ req, res }: any) => {
+Login.getInitialProps = async ({ req, res }: SessionContext) => {
   let user = req && req.session ? req.session.decodedToken : null;
   if (res && user) {
     res.writeHead(302, { Location: '/' });

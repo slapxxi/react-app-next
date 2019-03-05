@@ -1,12 +1,20 @@
 import fetchStore from '@self/lib/services/fetchStore';
 import updateStore from '@self/lib/services/updateStore';
-import { Action, StoreState, User, UserSettings } from '@self/lib/types';
+import {
+  Action,
+  PayloadAction,
+  StoreState,
+  User,
+  UserCreatedProject,
+  UserSettings,
+} from '@self/lib/types';
 import debounce from 'lodash-es/debounce';
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import { Provider } from './storeContext';
 
 export enum ActionType {
   updateSettings = 'UPDATE_SETTINGS',
+  createProject = 'CREATE_PROJECT',
   setUser = 'SET_USER',
   signIn = 'SIGN_IN',
   signOut = 'SIGN_OUT',
@@ -14,11 +22,12 @@ export enum ActionType {
 }
 
 type StoreAction =
-  | Action<ActionType.updateSettings, UserSettings>
-  | Action<ActionType.setUser, User>
-  | Action<ActionType.setUserData, StoreState>
-  | Action<ActionType.signIn, User>
-  | Action<ActionType.signOut, void>;
+  | PayloadAction<ActionType.updateSettings, UserSettings>
+  | PayloadAction<ActionType.setUser, User>
+  | PayloadAction<ActionType.setUserData, StoreState>
+  | PayloadAction<ActionType.signIn, User>
+  | PayloadAction<ActionType.createProject, UserCreatedProject>
+  | Action<ActionType.signOut>;
 
 interface Props {
   children: React.ReactChild;
@@ -27,6 +36,7 @@ interface Props {
 
 let defaultState: StoreState = {
   user: null,
+  projects: [],
   settings: { useDarkMode: false },
   lastUpdated: 0,
 };
@@ -68,6 +78,25 @@ function storeReducer(state: StoreState, action: StoreAction): StoreState {
       return { ...state, user: action.payload };
     case ActionType.signOut:
       return { ...defaultState };
+    case ActionType.createProject:
+      if (state.user) {
+        let userCreatedProject = action.payload;
+        return {
+          ...state,
+          projects: [
+            ...state.projects,
+            {
+              ...userCreatedProject,
+              author: state.user,
+              createdAt: new Date(),
+              updatedAt: null,
+            },
+          ],
+          lastUpdated: Date.now(),
+        };
+      } else {
+        return state;
+      }
     default:
       return state;
   }

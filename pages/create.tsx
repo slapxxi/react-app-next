@@ -1,11 +1,14 @@
 import Button from '@self/components/Button';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
-import { Action, PayloadAction, ValidationError } from '@self/lib/types';
+import useStore from '@self/lib/hooks/useStore';
+import { Action, ID, PayloadAction, ValidationError } from '@self/lib/types';
 import isEmpty from 'lodash-es/isEmpty';
 import map from 'lodash-es/map';
 import reduce from 'lodash-es/reduce';
+import Router from 'next/router';
 import { ChangeEvent, useReducer } from 'react';
+import { v4 as generateId } from 'uuid';
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
@@ -14,6 +17,7 @@ interface ValidationErrors {
 }
 
 interface FormState {
+  id: ID;
   title: string;
   description: string;
 }
@@ -33,11 +37,13 @@ type Actions =
   | PayloadAction<ActionType.update, Partial<FormState>>;
 
 function CreateProject() {
+  let store = useStore();
   let [state, dispatch] = useReducer(
     createReducer,
     createReducer(
       {
         formState: {
+          id: generateId(),
           title: '',
           description: '',
         },
@@ -49,7 +55,9 @@ function CreateProject() {
 
   function handleCreate() {
     if (isEmpty(state.errors)) {
-      console.log(state);
+      let { id, title, description } = state.formState;
+      store.actions.createProject({ id, title, description });
+      Router.push(`/project?projectId=${id}`);
     }
   }
 
@@ -65,6 +73,7 @@ function CreateProject() {
     <PageContainer>
       <PageHeading>Create</PageHeading>
       <div>
+        <input type="hidden" value={state.formState.id} name="id" />
         <label htmlFor="create-title">Title</label>
         <input
           value={state.formState.title}
@@ -82,7 +91,7 @@ function CreateProject() {
           onChange={updateDescription}
         />
       </div>
-      <Button onClick={handleCreate} disabled={!isEmpty(state.errors)}>
+      <Button type="submit" onClick={handleCreate} disabled={!isEmpty(state.errors)}>
         Publish
       </Button>
       <Errors errors={state.errors} />

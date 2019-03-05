@@ -39,8 +39,8 @@ app.prepare().then(() => {
     next();
   });
 
-  server.get('/projects/:slug', (req, res) => {
-    return app.render(req, res, '/project', { slug: req.params.slug });
+  server.get('/project/:projectid', (req, res) => {
+    return app.render(req, res, '/project', { projectId: req.params.projectid });
   });
 
   server.post('/api/login', (req, res) => {

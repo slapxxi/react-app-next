@@ -1,3 +1,7 @@
+import { app, auth } from 'firebase-admin';
+import { IncomingMessage } from 'http';
+import { NextContext } from 'next';
+
 export type ID = string;
 
 export type Color = string;
@@ -7,6 +11,12 @@ export type URL = string;
 export type Maybe<T> = T | null;
 
 export type FontFamily = string;
+
+export type HttpClient = app.App;
+
+export type SessionUser = auth.DecodedIdToken;
+
+export type EpochTime = number;
 
 export interface FirebaseConfiguration {
   apiKey: string;
@@ -37,17 +47,31 @@ export interface Store {
   dispatch: (action: any) => void;
 }
 
-export interface StoreState {
-  user: Maybe<User>;
+export interface BaseStoreState {
+  projects: Project[];
   settings: {
     useDarkMode: boolean;
   };
   lastUpdated: number;
 }
 
+export interface StoreState extends BaseStoreState {
+  user: Maybe<User>;
+}
+
 export interface DB {
+  projects: {
+    [projectId: string]: DBProject;
+  };
   settings: UserSettings;
   lastUpdated: number;
+}
+
+export interface DBProject {
+  title: string;
+  description: string;
+  createdAt: EpochTime;
+  updatedAt: Maybe<EpochTime>;
 }
 
 export interface Theme {
@@ -68,12 +92,16 @@ export interface Theme {
 
 export interface Project {
   id: ID;
-  author: User;
-  members: User[];
   title: string;
   description: string;
   createdAt: Date;
   updatedAt: Maybe<Date>;
+}
+
+export interface UserCreatedProject {
+  id: ID;
+  title: string;
+  description: string;
 }
 
 export interface Action<Type> {
@@ -87,4 +115,15 @@ export interface PayloadAction<Type, Payload> {
 
 export interface ValidationError {
   message: string;
+}
+
+export interface Session extends IncomingMessage {
+  firebaseServer: HttpClient;
+  session: {
+    decodedToken: Maybe<SessionUser>;
+  };
+}
+
+export interface SessionContext extends NextContext {
+  req?: Session;
 }

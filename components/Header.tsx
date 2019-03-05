@@ -55,7 +55,7 @@ function Header() {
       <header css={headerStyles}>
         <Link href="/">
           <a href="/" css={[linkStyles, { flex: 1 }]}>
-            <LogoIcon size={28} />
+            <LogoIcon size={24} />
           </a>
         </Link>
 
