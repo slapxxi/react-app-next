@@ -5,8 +5,8 @@ import { Project } from '@self/lib/types';
 import Link from 'next/link';
 
 function Projects() {
-  let store = useStore();
-  let projects = store.state.projects;
+  let { selectors } = useStore();
+  let projects = selectors.selectProjects();
 
   return (
     <PageContainer>

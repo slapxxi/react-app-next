@@ -57,7 +57,7 @@ function CreateProject() {
     if (isEmpty(state.errors)) {
       let { id, title, description } = state.formState;
       store.actions.createProject({ id, title, description });
-      Router.push(`/project?projectId=${id}`);
+      Router.push(`/project?projectId=${id}`, `/project/${id}`);
     }
   }
 

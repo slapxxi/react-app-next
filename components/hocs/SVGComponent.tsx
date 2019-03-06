@@ -11,6 +11,7 @@ function SVGComponent(
 ): React.ComponentType<SVGProps> {
   return (props: SVGProps) => {
     let { size, className, ...rest } = props;
+
     return (
       <svg width={size} height={size} className={className} {...config}>
         <Component {...rest} className={className} />

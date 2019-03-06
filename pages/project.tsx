@@ -1,10 +1,16 @@
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core';
+import Button from '@self/components/Button';
+import Dropdown from '@self/components/Dropdown';
 import withAuth from '@self/components/hocs/withAuth';
+import CogIcon from '@self/components/icons/CogIcon';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
 import useStore from '@self/lib/hooks/useStore';
 import fetchProject from '@self/lib/services/fetchProject';
 import { Project as IProject, SessionContext } from '@self/lib/types';
 import Link from 'next/link';
+import Router from 'next/router';
 
 interface Props {
   project: IProject;
@@ -12,7 +18,7 @@ interface Props {
 }
 
 function Project({ project, projectId }: Props) {
-  let { selectors } = useStore();
+  let { actions, selectors } = useStore();
 
   if (!project) {
     project = selectors.selectProject(projectId);
@@ -26,14 +32,37 @@ function Project({ project, projectId }: Props) {
     date = project ? project.createdAt : new Date();
   }
 
+  function handleDelete() {
+    let confirmed = confirm('Delete this project?');
+    if (confirmed) {
+      actions.deleteProject(project);
+      Router.push('/projects');
+    }
+  }
+
   if (project) {
     return (
       <PageContainer>
-        <PageHeading>{project.title}</PageHeading>
+        <PageHeading
+          css={css`
+            display: flex;
+          `}
+        >
+          {project.title}
+          <Dropdown
+            css={css`
+              margin-left: 1rem;
+            `}
+          >
+            <CogIcon size={20} />
+          </Dropdown>
+        </PageHeading>
         <hgroup>
           <time dateTime={date.toUTCString()}>{date.toString()}</time>
         </hgroup>
         <p>{project.description}</p>
+        <Button>Edit</Button>
+        <Button onClick={handleDelete}>Delete</Button>
       </PageContainer>
     );
   }

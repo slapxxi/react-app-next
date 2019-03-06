@@ -1,8 +1,10 @@
 import { Theme } from '@self/lib/types';
 
 let defaultTheme: Theme = {
+  type: 'light',
   color: {
-    background: '#fcfcff',
+    background: 'hsl(220, 5%, 99%)',
+    backgroundActive: 'hsl(220, 5%, 95%)',
     text: 'hsl(220, 30%, 20%)',
     heading: 'hsl(220, 30%, 10%)',
     outline: '#112',

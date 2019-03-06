@@ -75,8 +75,10 @@ export interface DBProject {
 }
 
 export interface Theme {
+  type: 'dark' | 'light';
   color: {
     background: Color;
+    backgroundActive: Color;
     text: Color;
     heading: Color;
     outline: Color;

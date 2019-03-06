@@ -3,6 +3,7 @@ import updateStore from '@self/lib/services/updateStore';
 import {
   Action,
   PayloadAction,
+  Project,
   StoreState,
   User,
   UserCreatedProject,
@@ -15,6 +16,7 @@ import { Provider } from './storeContext';
 export enum ActionType {
   updateSettings = 'UPDATE_SETTINGS',
   createProject = 'CREATE_PROJECT',
+  deleteProject = 'DELETE_PROJECT',
   setUser = 'SET_USER',
   signIn = 'SIGN_IN',
   signOut = 'SIGN_OUT',
@@ -27,6 +29,7 @@ type StoreAction =
   | PayloadAction<ActionType.setUserData, StoreState>
   | PayloadAction<ActionType.signIn, User>
   | PayloadAction<ActionType.createProject, UserCreatedProject>
+  | PayloadAction<ActionType.deleteProject, Project>
   | Action<ActionType.signOut>;
 
 interface Props {
@@ -78,6 +81,12 @@ function storeReducer(state: StoreState, action: StoreAction): StoreState {
       return { ...state, user: action.payload };
     case ActionType.signOut:
       return { ...defaultState };
+    case ActionType.deleteProject:
+      return {
+        ...state,
+        projects: state.projects.filter((p) => p.id !== action.payload.id),
+        lastUpdated: Date.now(),
+      };
     case ActionType.createProject:
       if (state.user) {
         let userCreatedProject = action.payload;
@@ -87,7 +96,6 @@ function storeReducer(state: StoreState, action: StoreAction): StoreState {
             ...state.projects,
             {
               ...userCreatedProject,
-              author: state.user,
               createdAt: new Date(),
               updatedAt: null,
             },

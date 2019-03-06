@@ -8,8 +8,8 @@ interface Props extends React.ComponentProps<'div'> {
 }
 
 let imgStyles = (theme: Theme) => css`
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 49.9%;
   border: 2px solid ${theme.color.background};
 
