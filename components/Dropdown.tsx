@@ -1,15 +1,15 @@
 /** @jsx jsx */
-import { css, jsx } from '@emotion/core';
+import { css, jsx, SerializedStyles } from '@emotion/core';
 import { Theme } from '@self/lib/types';
 import { useEffect, useRef, useState } from 'react';
 
-interface Props extends React.ComponentProps<'div'> {}
+type Props = React.ComponentProps<'div'>;
 
 let containerStyles = css`
   position: relative;
 `;
 
-let dropdownMenuStyles = (theme: Theme) => css`
+let dropdownMenuStyles = (theme: Theme): SerializedStyles => css`
   ${theme.type === 'dark'
     ? `background: ${theme.color.backgroundActive};`
     : `background: ${theme.color.background};`}
@@ -28,7 +28,7 @@ let dropdownMenuStyles = (theme: Theme) => css`
   font-family: ${theme.font.text};
 `;
 
-let dropdownItemStyles = (theme: Theme) => css`
+let dropdownItemStyles = (theme: Theme): SerializedStyles => css`
   padding: 1rem;
 
   :hover {
@@ -42,12 +42,12 @@ let dropdownItemStyles = (theme: Theme) => css`
   }
 `;
 
-let hiddenStyles = (theme: Theme) => css`
+let hiddenStyles = (theme: Theme): SerializedStyles => css`
   ${dropdownMenuStyles(theme)}
   visibility: hidden;
 `;
 
-function Dropdown(props: Props) {
+function Dropdown(props: Props): React.ReactElement {
   let [active, setActive] = useState(false);
   let dropdown = useRef<HTMLUListElement>(null);
   let container = useRef<HTMLDivElement>(null);
@@ -65,7 +65,6 @@ function Dropdown(props: Props) {
   }, []);
 
   function outsideClickListener(event: MouseEvent) {
-    console.log('outside...');
     let { current: containerElement } = container;
 
     if (containerElement && !containerElement.contains(event.target as HTMLElement)) {
@@ -88,7 +87,7 @@ function Dropdown(props: Props) {
   );
 }
 
-function repositionElementAccordingToViewport(element: HTMLElement) {
+function repositionElementAccordingToViewport(element: HTMLElement): void {
   let viewportDimensions = {
     width: document.documentElement.clientWidth,
     height: document.documentElement.clientHeight,

@@ -46,7 +46,9 @@ app.prepare().then(() => {
   server.post('/api/login', (req, res) => {
     if (!req.body) return res.sendStatus(400);
 
-    const token = req.body.token;
+    const {
+      body: { token },
+    } = req;
     firebase
       .auth()
       .verifyIdToken(token)

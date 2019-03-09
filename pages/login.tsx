@@ -13,12 +13,11 @@ import { useEffect } from 'react';
 
 let provider = new firebase.auth.GithubAuthProvider();
 
-function Login() {
+function Login(): React.ReactElement {
   let { state, actions } = useStore();
 
   useEffect(() => {
     let unsub = firebase.auth().onAuthStateChanged((user) => {
-      console.log(user);
       if (user) {
         signIn(user).then((user) => actions.signIn(user));
       } else {
@@ -28,11 +27,11 @@ function Login() {
     return unsub;
   }, []);
 
-  function handleSignIn() {
+  function handleSignIn(): void {
     firebase.auth().signInWithPopup(provider);
   }
 
-  function handleSignOut() {
+  function handleSignOut(): void {
     firebase.auth().signOut();
   }
 
@@ -49,6 +48,7 @@ function Login() {
     <PageContainer>
       <PageHeading>Sign In</PageHeading>
       <GithubButton onClick={handleSignIn} />
+      <div>hello</div>
     </PageContainer>
   );
 }

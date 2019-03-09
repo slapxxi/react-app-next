@@ -6,16 +6,16 @@ function withAuth<P, IP>(
 ): NextComponentType<P, IP, SessionContext> {
   let originalGetInitialProps = Component.getInitialProps;
 
-  Component.displayName = `withAuth(${Component.displayName})`;
+  Component.displayName = Component.displayName
+    ? `withAuth(${Component.displayName})`
+    : 'withAuth';
 
   Component.getInitialProps = async (context: SessionContext) => {
     let { req, res } = context;
 
-    if (req && !req.session.decodedToken) {
-      if (res) {
-        res.writeHead(302, { Location: '/login' });
-        res.end();
-      }
+    if (res && req && !req.session.decodedToken) {
+      res.writeHead(302, { Location: '/login' });
+      res.end();
     }
 
     if (originalGetInitialProps) {
