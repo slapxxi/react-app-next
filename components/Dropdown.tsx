@@ -59,12 +59,13 @@ function Dropdown(props: Props) {
       repositionElementAccordingToViewport(dropdown.current);
     }
 
-    document.addEventListener('click', outsideClickListener);
+    document.addEventListener('mousedown', outsideClickListener);
 
-    return () => document.removeEventListener('click', outsideClickListener);
+    return () => document.removeEventListener('mousedown', outsideClickListener);
   }, []);
 
   function outsideClickListener(event: MouseEvent) {
+    console.log('outside...');
     let { current: containerElement } = container;
 
     if (containerElement && !containerElement.contains(event.target as HTMLElement)) {
@@ -77,7 +78,7 @@ function Dropdown(props: Props) {
   }
 
   return (
-    <div css={containerStyles} ref={container} {...rest} onClick={handleToggle}>
+    <div css={containerStyles} ref={container} {...rest} onMouseDown={handleToggle}>
       {children}
       <ul css={active ? dropdownMenuStyles : hiddenStyles} ref={dropdown}>
         <li css={dropdownItemStyles}>Edit</li>
