@@ -11,6 +11,7 @@ module.exports = {
   extends: ['plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
   plugins: ['react', 'jsx-a11y', 'import', 'react-hooks'],
   rules: {
+    'react/react-in-jsx-scope': [0],
     'react-hooks/rules-of-hooks': 'error',
     'react-hooks/exhaustive-deps': 'warn',
     '@typescript-eslint/indent': [0],

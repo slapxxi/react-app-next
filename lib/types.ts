@@ -80,6 +80,7 @@ export interface Theme {
     background: Color;
     backgroundActive: Color;
     text: Color;
+    em: Color;
     heading: Color;
     outline: Color;
     link: Color;

@@ -1,9 +1,12 @@
 /** @jsx jsx */
 import { css, jsx, SerializedStyles } from '@emotion/core';
 import { Theme } from '@self/lib/types';
-import { useEffect, useRef, useState } from 'react';
+import { ComponentProps, ComponentType, useEffect, useRef, useState } from 'react';
 
-type Props = React.ComponentProps<'div'>;
+interface Props extends React.ComponentProps<'div'> {
+  children: (params: { Item: ComponentType<ComponentProps<'li'>> }) => any;
+  renderToggle: (params: { active: boolean }) => void;
+}
 
 let containerStyles = css`
   position: relative;
@@ -29,6 +32,8 @@ let dropdownMenuStyles = (theme: Theme): SerializedStyles => css`
 `;
 
 let dropdownItemStyles = (theme: Theme): SerializedStyles => css`
+  display: flex;
+  align-items: center;
   padding: 1rem;
 
   :hover {
@@ -51,7 +56,7 @@ function Dropdown(props: Props): React.ReactElement {
   let [active, setActive] = useState(false);
   let dropdown = useRef<HTMLUListElement>(null);
   let container = useRef<HTMLDivElement>(null);
-  let { children, ...rest } = props;
+  let { children, renderToggle, ...rest } = props;
 
   useEffect(() => {
     // TODO: change menu position on resize when necessary
@@ -78,12 +83,19 @@ function Dropdown(props: Props): React.ReactElement {
 
   return (
     <div css={containerStyles} ref={container} {...rest} onMouseDown={handleToggle}>
-      {children}
+      {renderToggle({ active })}
       <ul css={active ? dropdownMenuStyles : hiddenStyles} ref={dropdown}>
-        <li css={dropdownItemStyles}>Edit</li>
-        <li css={dropdownItemStyles}>Delete</li>
+        {children({ Item: DropdownMenuItem })}
       </ul>
     </div>
+  );
+}
+
+function DropdownMenuItem({ children, ...rest }: ComponentProps<'li'>) {
+  return (
+    <li css={dropdownItemStyles} {...rest}>
+      {children}
+    </li>
   );
 }
 

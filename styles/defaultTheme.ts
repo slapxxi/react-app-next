@@ -6,6 +6,7 @@ let defaultTheme: Theme = {
     background: 'hsl(220, 5%, 99%)',
     backgroundActive: 'hsl(220, 5%, 95%)',
     text: 'hsl(220, 30%, 20%)',
+    em: 'hsl(220, 10%, 55%)',
     heading: 'hsl(220, 30%, 10%)',
     outline: '#112',
     link: 'hsl(210, 95%, 50%)',

@@ -1,14 +1,15 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
-import Button from '@self/components/Button';
 import Dropdown from '@self/components/Dropdown';
+import FormatDate from '@self/components/FormatDate';
 import withAuth from '@self/components/hocs/withAuth';
 import CogIcon from '@self/components/icons/CogIcon';
+import TrashbinIcon from '@self/components/icons/TrashbinIcon';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
 import useStore from '@self/lib/hooks/useStore';
 import fetchProject from '@self/lib/services/fetchProject';
-import { Project as IProject, SessionContext } from '@self/lib/types';
+import { Project as IProject, SessionContext, Theme } from '@self/lib/types';
 import Link from 'next/link';
 import Router from 'next/router';
 
@@ -24,14 +25,6 @@ function Project({ project, projectId }: Props) {
     project = selectors.selectProject(projectId);
   }
 
-  let date;
-
-  if (project && typeof project.createdAt === 'string') {
-    date = new Date(project.createdAt);
-  } else {
-    date = project ? project.createdAt : new Date();
-  }
-
   function handleDelete() {
     let confirmed = confirm('Delete this project?');
     if (confirmed) {
@@ -43,26 +36,62 @@ function Project({ project, projectId }: Props) {
   if (project) {
     return (
       <PageContainer>
-        <PageHeading
-          css={css`
-            display: flex;
-          `}
-        >
-          {project.title}
-          <Dropdown
+        <header>
+          <PageHeading
             css={css`
-              margin-left: 1rem;
+              display: flex;
+              margin: 0;
             `}
           >
-            <CogIcon size={20} />
-          </Dropdown>
-        </PageHeading>
-        <hgroup>
-          <time dateTime={date.toUTCString()}>{date.toString()}</time>
-        </hgroup>
+            {project.title}
+            <Dropdown
+              css={css`
+                margin-left: 1rem;
+              `}
+              renderToggle={({ active }) => (
+                <CogIcon
+                  size={20}
+                  css={(theme: Theme) => css`
+                    ${active && `stroke: ${theme.color.em};`}
+                  `}
+                />
+              )}
+            >
+              {({ Item }) => (
+                <>
+                  <Item>Edit</Item>
+                  <Item>Remind</Item>
+                  <Item onClick={handleDelete}>
+                    <TrashbinIcon
+                      size={16}
+                      css={css`
+                        margin-right: 0.5rem;
+                      `}
+                    />
+                    Delete
+                  </Item>
+                </>
+              )}
+            </Dropdown>
+          </PageHeading>
+          <hgroup>
+            Created at:&nbsp;
+            <FormatDate
+              date={project.createdAt}
+              css={(theme: Theme) => css`
+                color: ${theme.color.em};
+              `}
+            />{' '}
+            Updated at:&nbsp;
+            <FormatDate
+              date={project.updatedAt}
+              css={(theme: Theme) => css`
+                color: ${theme.color.em};
+              `}
+            />
+          </hgroup>
+        </header>
         <p>{project.description}</p>
-        <Button>Edit</Button>
-        <Button onClick={handleDelete}>Delete</Button>
       </PageContainer>
     );
   }
@@ -70,7 +99,7 @@ function Project({ project, projectId }: Props) {
   return (
     <PageContainer>
       <PageHeading>404 - Not Found</PageHeading>
-      <p>This project doesn't exist yet</p>
+      <p>This project doesn&amp;t exist yet</p>
       <Link href="/create">
         <a href="/create">Create Project</a>
       </Link>

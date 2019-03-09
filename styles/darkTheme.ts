@@ -6,6 +6,7 @@ let darkTheme: Theme = {
     background: 'hsl(230, 15%, 15%)',
     backgroundActive: 'hsl(230, 15%, 25%)',
     text: 'hsl(230, 10%, 75%)',
+    em: 'hsl(230, 10%, 50%)',
     heading: 'hsl(230, 10%, 85%)',
     outline: 'hsl(230, 10%, 95%)',
     link: 'hotpink',
