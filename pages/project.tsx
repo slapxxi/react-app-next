@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import { Avatar } from '@self/components/Avatar';
 import Dropdown from '@self/components/Dropdown';
 import FormatDate from '@self/components/FormatDate';
 import withAuth from '@self/components/hocs/withAuth';
@@ -74,21 +75,27 @@ function Project({ project, projectId }: Props) {
               )}
             </Dropdown>
           </PageHeading>
-          <hgroup>
-            Created at:&nbsp;
+          <hgroup
+            css={css`
+              display: flex;
+              align-items: center;
+            `}
+          >
+            Created:{' '}
             <FormatDate
               date={project.createdAt}
               css={(theme: Theme) => css`
                 color: ${theme.color.em};
               `}
             />{' '}
-            Updated at:&nbsp;
+            Updated:{' '}
             <FormatDate
               date={project.updatedAt}
               css={(theme: Theme) => css`
                 color: ${theme.color.em};
               `}
-            />
+            />{' '}
+            Author: <Avatar user={project.author} size={24} />
           </hgroup>
         </header>
         <p>{project.description}</p>
@@ -99,7 +106,7 @@ function Project({ project, projectId }: Props) {
   return (
     <PageContainer>
       <PageHeading>404 - Not Found</PageHeading>
-      <p>This project doesn&amp;t exist yet</p>
+      <p>This project doesn&#39;t exist yet</p>
       <Link href="/create">
         <a href="/create">Create Project</a>
       </Link>

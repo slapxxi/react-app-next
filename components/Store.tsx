@@ -40,7 +40,7 @@ interface Props {
 let defaultState: StoreState = {
   user: null,
   projects: [],
-  settings: { useDarkMode: false },
+  settings: { useDarkMode: false, reduceMotion: false },
   lastUpdated: 0,
 };
 
@@ -96,6 +96,7 @@ function storeReducer(state: StoreState, action: StoreAction): StoreState {
             ...state.projects,
             {
               ...userCreatedProject,
+              author: state.user,
               createdAt: new Date(),
               updatedAt: null,
             },

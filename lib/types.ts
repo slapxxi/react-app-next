@@ -27,13 +27,11 @@ export interface FirebaseConfiguration {
   messagingSenderId: string;
 }
 
-export interface User extends firebase.User {
-  uid: ID;
-  picture: URL;
-}
+export type User = SessionUser;
 
 export interface UserSettings {
   useDarkMode: boolean;
+  reduceMotion: boolean;
 }
 
 export interface Item {
@@ -49,9 +47,7 @@ export interface Store {
 
 export interface BaseStoreState {
   projects: Project[];
-  settings: {
-    useDarkMode: boolean;
-  };
+  settings: UserSettings;
   lastUpdated: number;
 }
 
@@ -97,6 +93,7 @@ export interface Project {
   id: ID;
   title: string;
   description: string;
+  author: User;
   createdAt: Date;
   updatedAt: Maybe<Date>;
 }

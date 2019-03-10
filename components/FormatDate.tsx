@@ -16,7 +16,7 @@ function FormatDate(props: Props) {
   if (date) {
     date = date as Date;
     return (
-      <time {...rest} dateTime={date.toUTCString()}>
+      <time {...rest} dateTime={date.toUTCString()} title={date.toUTCString()}>
         {format(date, 'DD/MM/YY')}
       </time>
     );

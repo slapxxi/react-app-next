@@ -1,17 +1,17 @@
 import map from 'lodash-es/map';
-import { BaseStoreState, DB, Project } from '../types';
+import { BaseStoreState, DB, Project, User } from '../types';
 
-function mapDBToState(db: DB): BaseStoreState {
+function mapDBToState(db: DB, user: User): BaseStoreState {
   let { projects, settings, lastUpdated } = db;
 
   return {
-    projects: mapDBProjectstoProjects(projects),
+    projects: mapDBProjectstoProjects(projects, user),
     settings,
     lastUpdated,
   };
 }
 
-function mapDBProjectstoProjects(dbProjects: DB['projects']): Project[] {
+function mapDBProjectstoProjects(dbProjects: DB['projects'], user: User): Project[] {
   return map(dbProjects, (project, id) => {
     let { title, description, createdAt, updatedAt } = project;
 
@@ -19,6 +19,7 @@ function mapDBProjectstoProjects(dbProjects: DB['projects']): Project[] {
       id,
       title,
       description,
+      author: user,
       createdAt: new Date(createdAt),
       updatedAt: updatedAt ? new Date(updatedAt) : null,
     };

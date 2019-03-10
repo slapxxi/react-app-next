@@ -11,7 +11,7 @@ try {
 let defaultStoreState: StoreState = {
   user: null,
   projects: [],
-  settings: { useDarkMode: false },
+  settings: { useDarkMode: false, reduceMotion: false },
   lastUpdated: 0,
 };
 
@@ -23,7 +23,7 @@ async function fetchStore(user: Maybe<User>, client = firebase): Promise<StoreSt
       .once('value')
       .then((snapshot) => {
         let data: DB = snapshot.val();
-        let mappedData = mapDBToState(data);
+        let mappedData = mapDBToState(data, user);
         return { ...mappedData, user };
       });
   } else {

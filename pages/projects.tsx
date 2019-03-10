@@ -2,11 +2,12 @@ import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
 import useStore from '@self/lib/hooks/useStore';
 import { Project } from '@self/lib/types';
+import sortBy from 'lodash-es/sortBy';
 import Link from 'next/link';
 
 function Projects() {
   let { selectors } = useStore();
-  let projects = selectors.selectProjects();
+  let projects = sortBy(selectors.selectProjects(), ['createdAt', 'title']);
 
   return (
     <PageContainer>
