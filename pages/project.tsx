@@ -9,13 +9,14 @@ import TrashbinIcon from '@self/components/icons/TrashbinIcon';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
 import useStore from '@self/lib/hooks/useStore';
+import redirectTo from '@self/lib/redirectTo';
 import fetchProject from '@self/lib/services/fetchProject';
 import { Project as IProject, SessionContext, Theme } from '@self/lib/types';
 import Link from 'next/link';
 import Router from 'next/router';
 
 interface Props {
-  project: IProject;
+  project?: IProject;
   projectId: string;
 }
 
@@ -28,7 +29,8 @@ function Project({ project, projectId }: Props) {
 
   function handleDelete() {
     let confirmed = confirm('Delete this project?');
-    if (confirmed) {
+
+    if (confirmed && project) {
       actions.deleteProject(project);
       Router.push('/projects');
     }
@@ -114,9 +116,13 @@ function Project({ project, projectId }: Props) {
   );
 }
 
-Project.getInitialProps = async ({ req, query }: SessionContext) => {
+Project.getInitialProps = async ({ req, res, query }: SessionContext) => {
   let project;
   let { projectId } = query as Record<string, string>;
+
+  if (res && !projectId) {
+    redirectTo(res, '/projects');
+  }
 
   if (req) {
     let user = req.session.decodedToken;

@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`accepts configuration 1`] = `
+<svg
+  height="24"
+  viewBox="0 0 10 10"
+  width="24"
+>
+  <circle
+    cx="10"
+    cy="10"
+    r="5"
+  />
+</svg>
+`;
+
+exports[`accepts css property 1`] = `
+<svg
+  class="css-18259do"
+  height="24"
+  width="24"
+>
+  <circle
+    cx="10"
+    cy="10"
+    r="5"
+  />
+</svg>
+`;
+
+exports[`renders 1`] = `
+<svg
+  height="24"
+  width="24"
+>
+  <circle
+    cx="10"
+    cy="10"
+    r="5"
+  />
+</svg>
+`;

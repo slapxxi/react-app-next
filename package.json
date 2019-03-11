@@ -61,6 +61,8 @@
     "@types/zeit__next-typescript": "^0.1.2",
     "@typescript-eslint/eslint-plugin": "^1.4.2",
     "@typescript-eslint/parser": "^1.4.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "dotenv": "^6.2.0",
     "eslint": "^5.15.1",
     "eslint-config-airbnb": "^17.1.0",
@@ -68,7 +70,10 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.5.0",
+    "identity-obj-proxy": "^3.0.0",
     "jest": "^24.3.1",
+    "jest-mdx-loader": "^0.1.1",
+    "react-hot-loader": "^4.8.0",
     "react-testing-library": "^6.0.0",
     "typescript": "^3.3.3333"
   }

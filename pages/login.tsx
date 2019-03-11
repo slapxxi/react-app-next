@@ -4,6 +4,7 @@ import GithubButton from '@self/components/GithubButton';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
 import useStore from '@self/lib/hooks/useStore';
+import redirectTo from '@self/lib/redirectTo';
 import signIn from '@self/lib/services/signIn';
 import signOut from '@self/lib/services/signOut';
 import { SessionContext } from '@self/lib/types';
@@ -13,7 +14,7 @@ import { useEffect } from 'react';
 
 let provider = new firebase.auth.GithubAuthProvider();
 
-function Login(): React.ReactElement {
+function Login() {
   let { state, actions } = useStore();
 
   useEffect(() => {
@@ -55,10 +56,11 @@ function Login(): React.ReactElement {
 
 Login.getInitialProps = async ({ req, res }: SessionContext) => {
   let user = req && req.session ? req.session.decodedToken : null;
+
   if (res && user) {
-    res.writeHead(302, { Location: '/' });
-    res.end();
+    redirectTo(res, '/');
   }
+
   return { user };
 };
 

@@ -1,15 +1,17 @@
-interface SVGProps {
+import { ComponentProps, ComponentType } from 'react';
+
+interface SVGProps extends ComponentProps<'g'> {
   size: number;
   className?: string;
 }
 
-interface Config extends React.SVGAttributes<SVGElement> {}
+type Config = React.SVGAttributes<SVGElement>;
 
-function SVGComponent(
-  Component: React.ComponentType<React.ComponentProps<any>>,
+function SVGComponent<Props extends SVGProps>(
+  Component: React.ComponentType<Props>,
   config?: Config,
-): React.ComponentType<SVGProps> {
-  return (props: SVGProps) => {
+): React.ComponentType<Props> {
+  let SVGComp: ComponentType<Props> = (props: Props) => {
     let { size, className, ...rest } = props;
 
     return (
@@ -18,6 +20,10 @@ function SVGComponent(
       </svg>
     );
   };
+
+  SVGComp.displayName = 'SVGComponent';
+
+  return SVGComp;
 }
 
 export default SVGComponent;

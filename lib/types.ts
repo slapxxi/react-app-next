@@ -127,3 +127,5 @@ export interface Session extends IncomingMessage {
 export interface SessionContext extends NextContext {
   req?: Session;
 }
+
+export type Mock<T> = Partial<T> | any;

@@ -1,9 +1,10 @@
+import redirectTo from '@self/lib/redirectTo';
 import { SessionContext } from '@self/lib/types';
 import { NextComponentType } from 'next';
 
 function withAuth<P, IP>(
-  Component: NextComponentType<P, IP, SessionContext>,
-): NextComponentType<P, IP, SessionContext> {
+  Component: NextComponentType<P, IP | undefined, SessionContext>,
+): NextComponentType<P, IP | undefined, SessionContext> {
   let originalGetInitialProps = Component.getInitialProps;
 
   Component.displayName = Component.displayName
@@ -14,13 +15,11 @@ function withAuth<P, IP>(
     let { req, res } = context;
 
     if (res && req && !req.session.decodedToken) {
-      res.writeHead(302, { Location: '/login' });
-      res.end();
+      redirectTo(res, '/login');
     }
 
     if (originalGetInitialProps) {
-      let initialProps = await originalGetInitialProps(context);
-      return initialProps;
+      return originalGetInitialProps(context);
     }
   };
 

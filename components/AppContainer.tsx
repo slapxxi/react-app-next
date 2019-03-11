@@ -8,7 +8,7 @@ import globalStyles from '@self/styles/globalStyles';
 import { ThemeProvider } from 'emotion-theming';
 import Header from './Header';
 
-interface Props extends React.ComponentProps<any> {}
+interface Props extends React.ComponentProps<'section'> {}
 
 let containerStyles = (theme: Theme) => css`
   background: ${theme.color.background};
