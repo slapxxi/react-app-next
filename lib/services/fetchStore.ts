@@ -1,4 +1,11 @@
-import { DB, FirebaseConfiguration, Maybe, StoreState, User } from '@self/lib/types';
+import {
+  DB,
+  FirebaseConfiguration,
+  HttpClient,
+  Maybe,
+  StoreState,
+  User,
+} from '@self/lib/types';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
@@ -15,7 +22,10 @@ let defaultStoreState: StoreState = {
   lastUpdated: 0,
 };
 
-async function fetchStore(user: Maybe<User>, client = firebase): Promise<StoreState> {
+async function fetchStore(
+  user: Maybe<User>,
+  client: HttpClient = (firebase as unknown) as HttpClient,
+): Promise<StoreState> {
   if (user) {
     return client
       .database()

@@ -1,72 +1,58 @@
 import Button from '@self/components/Button';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
+import useForm from '@self/lib/hooks/useForm';
+import useStorage from '@self/lib/hooks/useStorage';
 import useStore from '@self/lib/hooks/useStore';
-import { Action, ID, PayloadAction, ValidationError } from '@self/lib/types';
+import { ValidationErrors } from '@self/lib/types';
 import isEmpty from 'lodash-es/isEmpty';
 import map from 'lodash-es/map';
-import reduce from 'lodash-es/reduce';
 import Router from 'next/router';
-import { ChangeEvent, useReducer } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { v4 as generateId } from 'uuid';
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
-interface ValidationErrors {
-  [field: string]: ValidationError[];
-}
-
-interface FormState {
-  id: ID;
-  title: string;
-  description: string;
-}
-
-interface State {
-  formState: FormState;
-  errors: ValidationErrors;
-}
-
-enum ActionType {
-  init = 'INIT',
-  update = 'UPDATE',
-}
-
-type Actions =
-  | Action<ActionType.init>
-  | PayloadAction<ActionType.update, Partial<FormState>>;
+let defaultFormState = {
+  id: generateId(),
+  title: '',
+  description: '',
+};
 
 function CreateProject() {
   let store = useStore();
-  let [state, dispatch] = useReducer(
-    createReducer,
-    createReducer(
-      {
-        formState: {
-          id: generateId(),
-          title: '',
-          description: '',
-        },
-        errors: {},
-      },
-      { type: ActionType.init },
-    ),
-  );
+
+  let [storage, setStorage, clearStorage] = useStorage({
+    id: 'create-form',
+    type: 'sessionStorage',
+    data: defaultFormState,
+  });
+
+  let [state, formActions] = useForm({ fields: defaultFormState });
+
+  useEffect(() => {
+    formActions.update(storage);
+  }, [storage, formActions]);
+
+  useEffect(() => {
+    setStorage(state.formState);
+  }, [state.formState, setStorage]);
 
   function handleCreate() {
     if (isEmpty(state.errors)) {
       let { id, title, description } = state.formState;
+      clearStorage();
       store.actions.createProject({ id, title, description });
       Router.push(`/project?projectId=${id}`, `/project/${id}`);
     }
   }
 
   function updateTitle({ target }: InputEvent) {
-    dispatch({ type: ActionType.update, payload: { title: target.value } });
+    formActions.update({ title: target.value });
   }
 
   function updateDescription({ target }: InputEvent) {
-    dispatch({ type: ActionType.update, payload: { description: target.value } });
+    formActions.update({ description: target.value });
   }
 
   return (
@@ -91,9 +77,13 @@ function CreateProject() {
           onChange={updateDescription}
         />
       </div>
-      <Button type="submit" onClick={handleCreate} disabled={!isEmpty(state.errors)}>
-        Publish
-      </Button>
+      <div>
+        {isEmpty(state.errors) ? (
+          <Button type="submit" onClick={handleCreate}>
+            Publish
+          </Button>
+        ) : null}
+      </div>
       <Errors errors={state.errors} />
     </PageContainer>
   );
@@ -118,47 +108,6 @@ function Errors({ errors }: { errors: ValidationErrors }) {
       )}
     </div>
   );
-}
-
-function createReducer(state: State, action: Actions): State {
-  switch (action.type) {
-    case ActionType.init:
-      return validateState(state);
-    case ActionType.update:
-      let formState = { ...state.formState, ...action.payload };
-      return validateState({ formState, errors: state.errors });
-    default:
-      return state;
-  }
-}
-
-function validateState(state: State): State {
-  let { formState } = state;
-  let errors = reduce(
-    formState,
-    (acc, value, key) => {
-      let validationErrors = validateField(value);
-      if (validationErrors.length === 0) {
-        return acc;
-      } else {
-        return { ...acc, [key]: validationErrors };
-      }
-    },
-    {},
-  );
-  return { formState, errors };
-}
-
-function validateField(field: string): ValidationError[] {
-  let errors = [];
-
-  if (/^\s*$/.test(field)) {
-    errors.push({ message: 'should not be empty' });
-  } else if (field.length < 4) {
-    errors.push({ message: 'should contain at least 4 symbols' });
-  }
-
-  return errors;
 }
 
 export default CreateProject;

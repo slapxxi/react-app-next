@@ -1,6 +1,7 @@
 import { app, auth } from 'firebase-admin';
 import { IncomingMessage } from 'http';
 import { NextContext } from 'next';
+import { NextAppContext } from 'next/app';
 
 export type ID = string;
 
@@ -128,4 +129,14 @@ export interface SessionContext extends NextContext {
   req?: Session;
 }
 
+export interface SessionAppContext extends NextAppContext {
+  ctx: SessionContext;
+}
+
+export type StorageType = 'localStorage' | 'sessionStorage';
+
 export type Mock<T> = Partial<T> | any;
+
+export interface ValidationErrors {
+  [field: string]: ValidationError[];
+}

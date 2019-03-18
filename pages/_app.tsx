@@ -1,18 +1,19 @@
 import AppContainer from '@self/components/AppContainer';
 import Store from '@self/components/Store';
 import fetchStore from '@self/lib/services/fetchStore';
-import App, { Container, NextAppContext } from 'next/app';
+import { SessionAppContext } from '@self/lib/types';
+import App, { Container } from 'next/app';
 import Head from 'next/head';
 
 class Root extends App {
-  public static async getInitialProps({ Component, ctx }: NextAppContext) {
+  public static async getInitialProps({ Component, ctx }: SessionAppContext) {
     let pageProps = {};
     let { req } = ctx;
     let user = req && req.session ? req.session.decodedToken : null;
     let store;
 
     if (user) {
-      store = await fetchStore(user, req.firebaseServer);
+      store = await fetchStore(user, req && req.firebaseServer);
     } else {
       store = await fetchStore(null);
     }
@@ -23,6 +24,10 @@ class Root extends App {
 
     return { pageProps: { ...pageProps, store } };
   }
+
+  public componentDidCatch() {}
+
+  public static getDerivedStateFromError() {}
 
   public render() {
     let { Component, pageProps } = this.props;

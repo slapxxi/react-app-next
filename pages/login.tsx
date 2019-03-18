@@ -49,7 +49,6 @@ function Login() {
     <PageContainer>
       <PageHeading>Sign In</PageHeading>
       <GithubButton onClick={handleSignIn} />
-      <div>hello</div>
     </PageContainer>
   );
 }

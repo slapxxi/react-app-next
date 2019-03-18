@@ -1,23 +1,13 @@
 import { ActionType } from '@self/components/Store';
 import storeContext from '@self/components/storeContext';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { ID, Maybe, Project, StoreState, User, UserCreatedProject } from '../types';
 
 function useStore() {
   let { state, dispatch, isSyncing } = useContext(storeContext);
 
-  return {
-    state,
-    isSyncing,
-    selectors: {
-      selectProjects() {
-        return state.projects;
-      },
-      selectProject(id: ID) {
-        return state.projects.find((p: Project) => p.id === id);
-      },
-    },
-    actions: {
+  let actions = useMemo(() => {
+    return {
       createProject(project: UserCreatedProject) {
         return dispatch({ type: ActionType.createProject, payload: project });
       },
@@ -33,7 +23,25 @@ function useStore() {
       signOut() {
         return dispatch({ type: ActionType.signOut });
       },
-    },
+    };
+  }, [dispatch]);
+
+  let selectors = useMemo(() => {
+    return {
+      selectProjects() {
+        return state.projects;
+      },
+      selectProject(id: ID) {
+        return state.projects.find((p: Project) => p.id === id);
+      },
+    };
+  }, [state]);
+
+  return {
+    state,
+    isSyncing,
+    selectors,
+    actions,
   };
 }
 
