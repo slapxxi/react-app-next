@@ -9,7 +9,7 @@ module.exports = {
     },
   },
   extends: ['plugin:react/recommended', 'plugin:@typescript-eslint/recommended'],
-  plugins: ['react', 'jsx-a11y', 'import', 'react-hooks'],
+  plugins: ['react', 'jsx-a11y', 'import'],
   rules: {
     'react/react-in-jsx-scope': [0],
     'react-hooks/rules-of-hooks': 'error',
