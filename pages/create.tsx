@@ -32,11 +32,11 @@ function CreateProject() {
 
   useEffect(() => {
     formActions.update(storage);
-  }, [storage, formActions]);
+  }, []);
 
   useEffect(() => {
     setStorage(state.formState);
-  }, [state.formState, setStorage]);
+  }, [state.formState]);
 
   function handleCreate() {
     if (isEmpty(state.errors)) {
