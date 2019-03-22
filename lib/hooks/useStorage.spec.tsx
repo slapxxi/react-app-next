@@ -13,7 +13,7 @@ beforeEach(() => {
 
 afterEach(cleanup);
 
-it('does not reset value if it exists', () => {
+it('does not reset existing value on initial call', () => {
   function Component() {
     let [storage] = useStorage({
       id: 'test',
@@ -28,6 +28,29 @@ it('does not reset value if it exists', () => {
   let { container } = render(<Component />);
 
   expect(localStorage.getItem('test:localhost')).toEqual(existingValue);
+  expect(container.firstChild!.textContent).toEqual('old');
+});
+
+it('resets existing value on callback call', () => {
+  function Component() {
+    let [storage, setStorage] = useStorage({
+      id: 'test',
+      type: 'localStorage',
+      data: '...',
+    });
+    return (
+      <button data-testid="trigger" onClick={() => setStorage('new')}>
+        {storage}
+      </button>
+    );
+  }
+
+  let existingValue = JSON.stringify('old');
+  window.localStorage.setItem('test:localhost', existingValue);
+  let { container, getByTestId } = render(<Component />);
+  fireEvent.click(getByTestId('trigger'));
+
+  expect(localStorage.getItem('test:localhost')).toEqual(JSON.stringify('new'));
   expect(container.firstChild!.textContent).toEqual('old');
 });
 

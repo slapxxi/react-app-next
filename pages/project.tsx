@@ -12,6 +12,7 @@ import useStore from '@self/lib/hooks/useStore';
 import redirectTo from '@self/lib/redirectTo';
 import fetchProject from '@self/lib/services/fetchProject';
 import { Project as IProject, SessionContext, Theme } from '@self/lib/types';
+import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
 
@@ -39,11 +40,13 @@ function Project({ project, projectId }: Props) {
   if (project) {
     return (
       <PageContainer>
+        <Head>
+          <title>MM - Project: {project.title}</title>
+        </Head>
         <header>
           <PageHeading
             css={css`
               display: flex;
-              margin: 0;
             `}
           >
             {project.title}
@@ -62,8 +65,20 @@ function Project({ project, projectId }: Props) {
             >
               {({ Item }) => (
                 <>
-                  <Item>Edit</Item>
-                  <Item>Remind</Item>
+                  <Item>
+                    <Link
+                      href={`/edit?projectId=${project!.id}`}
+                      as={`/edit/${project!.id}`}
+                    >
+                      <a
+                        css={css`
+                          text-decoration: none;
+                        `}
+                      >
+                        Edit
+                      </a>
+                    </Link>
+                  </Item>
                   <Item onClick={handleDelete}>
                     <TrashbinIcon
                       size={16}

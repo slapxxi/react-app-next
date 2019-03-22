@@ -1,4 +1,7 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core';
 import Button from '@self/components/Button';
+import FormInput from '@self/components/FormInput';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
 import useForm from '@self/lib/hooks/useForm';
@@ -6,21 +9,22 @@ import useStorage from '@self/lib/hooks/useStorage';
 import useStore from '@self/lib/hooks/useStore';
 import { ValidationErrors } from '@self/lib/types';
 import isEmpty from 'lodash-es/isEmpty';
+import isEqual from 'lodash-es/isEqual';
 import map from 'lodash-es/map';
 import Router from 'next/router';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { v4 as generateId } from 'uuid';
 
 type InputEvent = ChangeEvent<HTMLInputElement>;
 
 let defaultFormState = {
-  id: generateId(),
   title: '',
   description: '',
 };
 
 function CreateProject() {
   let store = useStore();
+  let [displayErrors, setDisplayErrors] = useState(false);
 
   let [storage, setStorage, clearStorage] = useStorage({
     id: 'create-form',
@@ -28,19 +32,25 @@ function CreateProject() {
     data: defaultFormState,
   });
 
-  let [state, formActions] = useForm({ fields: defaultFormState });
+  let [form, formActions] = useForm({ fields: defaultFormState });
 
   useEffect(() => {
-    formActions.update(storage);
+    if (!isEqual(storage, defaultFormState)) {
+      if (!isEmpty(storage.description) || !isEmpty(storage.title)) {
+        setDisplayErrors(true);
+      }
+      formActions.update(storage);
+    }
   }, []);
 
   useEffect(() => {
-    setStorage(state.formState);
-  }, [state.formState]);
+    setStorage(form.formState);
+  }, [form.formState]);
 
   function handleCreate() {
-    if (isEmpty(state.errors)) {
-      let { id, title, description } = state.formState;
+    if (isEmpty(form.errors)) {
+      let { title, description } = form.formState;
+      let id = generateId();
       clearStorage();
       store.actions.createProject({ id, title, description });
       Router.push(`/project?projectId=${id}`, `/project/${id}`);
@@ -48,10 +58,16 @@ function CreateProject() {
   }
 
   function updateTitle({ target }: InputEvent) {
+    if (!displayErrors) {
+      setDisplayErrors(true);
+    }
     formActions.update({ title: target.value });
   }
 
   function updateDescription({ target }: InputEvent) {
+    if (!displayErrors) {
+      setDisplayErrors(true);
+    }
     formActions.update({ description: target.value });
   }
 
@@ -59,39 +75,38 @@ function CreateProject() {
     <PageContainer>
       <PageHeading>Create</PageHeading>
       <div>
-        <input type="hidden" value={state.formState.id} name="id" />
         <label htmlFor="create-title">Title</label>
-        <input
-          value={state.formState.title}
-          type="text"
+        <FormInput
           id="create-title"
+          type="text"
+          value={form.formState.title}
           onChange={updateTitle}
+          errors={displayErrors && !!form.errors.title}
         />
       </div>
       <div>
         <label htmlFor="create-description">Description</label>
-        <input
-          value={state.formState.description}
+        <FormInput
+          id="create-title"
           type="text"
-          id="create-description"
+          value={form.formState.description}
           onChange={updateDescription}
+          errors={displayErrors && !!form.errors.description}
         />
       </div>
       <div>
-        {isEmpty(state.errors) ? (
-          <Button type="submit" onClick={handleCreate}>
-            Publish
-          </Button>
-        ) : null}
+        <Button type="submit" onClick={handleCreate} disabled={!isEmpty(form.errors)}>
+          Publish
+        </Button>
       </div>
-      <Errors errors={state.errors} />
+      {displayErrors && <Errors errors={form.errors} />}
     </PageContainer>
   );
 }
 
 function Errors({ errors }: { errors: ValidationErrors }) {
   return (
-    <div>
+    <div datat-testid="errors">
       {map(
         errors,
         (err, key) =>

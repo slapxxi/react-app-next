@@ -43,6 +43,10 @@ app.prepare().then(() => {
     return app.render(req, res, '/project', { projectId: req.params.projectid });
   });
 
+  server.get('/edit/:projectid', (req, res) => {
+    return app.render(req, res, '/edit', { projectId: req.params.projectid });
+  });
+
   server.post('/api/login', (req, res) => {
     if (!req.body) return res.sendStatus(400);
 

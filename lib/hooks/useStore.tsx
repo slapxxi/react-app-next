@@ -11,6 +11,9 @@ function useStore() {
       createProject(project: UserCreatedProject) {
         return dispatch({ type: ActionType.createProject, payload: project });
       },
+      updateProject(project: Project) {
+        return dispatch({ type: ActionType.updateProject, payload: project });
+      },
       deleteProject(project: Project) {
         return dispatch({ type: ActionType.deleteProject, payload: project });
       },

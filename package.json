@@ -53,9 +53,9 @@
     "@types/express-session": "^1.15.12",
     "@types/jest": "^24.0.11",
     "@types/lodash-es": "^4.17.3",
-    "@types/next": "^8.0.1",
+    "@types/next": "^8.0.3",
     "@types/react": "^16.8.8",
-    "@types/react-dom": "^16.8.2",
+    "@types/react-dom": "^16.8.3",
     "@types/session-file-store": "^1.2.0",
     "@types/styled-jsx": "^2.2.8",
     "@types/zeit__next-typescript": "^0.1.2",
@@ -64,7 +64,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "dotenv": "^6.2.0",
-    "eslint": "^5.15.2",
+    "eslint": "^5.15.3",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
@@ -74,7 +74,7 @@
     "jest": "^24.5.0",
     "jest-mdx-loader": "^0.1.1",
     "react-hot-loader": "^4.8.0",
-    "react-testing-library": "^6.0.0",
-    "typescript": "^3.3.3333"
+    "react-testing-library": "^6.0.2",
+    "typescript": "^3.3.4000"
   }
 }

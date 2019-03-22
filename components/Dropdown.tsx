@@ -4,7 +4,10 @@ import { Theme } from '@self/lib/types';
 import { ComponentProps, ComponentType, useEffect, useRef, useState } from 'react';
 
 interface Props extends React.ComponentProps<'div'> {
-  children: (params: { Item: ComponentType<ComponentProps<'li'>> }) => any;
+  children: (params: {
+    Item: ComponentType<ComponentProps<'li'>>;
+    setActive: (value: boolean) => void;
+  }) => any;
   renderToggle: (params: { active: boolean }) => void;
 }
 
@@ -85,7 +88,7 @@ function Dropdown(props: Props): React.ReactElement {
     <div css={containerStyles} ref={container} {...rest} onMouseDown={handleToggle}>
       {renderToggle({ active })}
       <ul css={active ? dropdownMenuStyles : hiddenStyles} ref={dropdown}>
-        {children({ Item: DropdownMenuItem })}
+        {children({ Item: DropdownMenuItem, setActive })}
       </ul>
     </div>
   );

@@ -3,7 +3,11 @@ import { css, jsx } from '@emotion/core';
 import SVGComponent from '@self/components/hocs/SVGComponent';
 import { Theme } from '@self/lib/types';
 
-function CogIcon({ className }: any) {
+interface Props {
+  className?: string;
+}
+
+function CogIcon({ className }: Props) {
   return (
     <g
       css={(theme: Theme) => css`

@@ -10,12 +10,14 @@ import {
   UserSettings,
 } from '@self/lib/types';
 import debounce from 'lodash-es/debounce';
+import findIndex from 'lodash-es/findIndex';
 import { useEffect, useMemo, useReducer, useState } from 'react';
 import { Provider } from './storeContext';
 
 export enum ActionType {
   updateSettings = 'UPDATE_SETTINGS',
   createProject = 'CREATE_PROJECT',
+  updateProject = 'UPDATE_PROJECT',
   deleteProject = 'DELETE_PROJECT',
   setUser = 'SET_USER',
   signIn = 'SIGN_IN',
@@ -29,6 +31,7 @@ type StoreAction =
   | PayloadAction<ActionType.setUserData, StoreState>
   | PayloadAction<ActionType.signIn, User>
   | PayloadAction<ActionType.createProject, UserCreatedProject>
+  | PayloadAction<ActionType.updateProject, Project>
   | PayloadAction<ActionType.deleteProject, Project>
   | Action<ActionType.signOut>;
 
@@ -87,6 +90,11 @@ function storeReducer(state: StoreState, action: StoreAction): StoreState {
         projects: state.projects.filter((p) => p.id !== action.payload.id),
         lastUpdated: Date.now(),
       };
+    case ActionType.updateProject:
+      // TODO: replace with immutable implementation
+      let index = findIndex(state.projects, (p) => p.id === action.payload.id);
+      state.projects.splice(index, 1, { ...action.payload, updatedAt: new Date() });
+      return state;
     case ActionType.createProject:
       if (state.user) {
         let userCreatedProject = action.payload;

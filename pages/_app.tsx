@@ -36,7 +36,7 @@ class Root extends App {
     return (
       <Container>
         <Head>
-          <title>React + Next = 💖</title>
+          <title>MM</title>
         </Head>
         <Store init={store}>
           <AppContainer>
