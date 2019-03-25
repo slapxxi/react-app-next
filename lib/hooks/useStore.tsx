@@ -17,6 +17,9 @@ function useStore() {
       deleteProject(project: Project) {
         return dispatch({ type: ActionType.deleteProject, payload: project });
       },
+      deleteProjects(ids: ID[]) {
+        return dispatch({ type: ActionType.deleteProjects, payload: ids });
+      },
       updateSettings(settings: StoreState['settings']) {
         return dispatch({ type: ActionType.updateSettings, payload: settings });
       },

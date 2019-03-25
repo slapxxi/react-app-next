@@ -2,6 +2,7 @@ import fetchStore from '@self/lib/services/fetchStore';
 import updateStore from '@self/lib/services/updateStore';
 import {
   Action,
+  ID,
   PayloadAction,
   Project,
   StoreState,
@@ -19,6 +20,7 @@ export enum ActionType {
   createProject = 'CREATE_PROJECT',
   updateProject = 'UPDATE_PROJECT',
   deleteProject = 'DELETE_PROJECT',
+  deleteProjects = 'DELETE_PROJECTS',
   setUser = 'SET_USER',
   signIn = 'SIGN_IN',
   signOut = 'SIGN_OUT',
@@ -33,6 +35,7 @@ type StoreAction =
   | PayloadAction<ActionType.createProject, UserCreatedProject>
   | PayloadAction<ActionType.updateProject, Project>
   | PayloadAction<ActionType.deleteProject, Project>
+  | PayloadAction<ActionType.deleteProjects, ID[]>
   | Action<ActionType.signOut>;
 
 interface Props {
@@ -88,6 +91,12 @@ function storeReducer(state: StoreState, action: StoreAction): StoreState {
       return {
         ...state,
         projects: state.projects.filter((p) => p.id !== action.payload.id),
+        lastUpdated: Date.now(),
+      };
+    case ActionType.deleteProjects:
+      return {
+        ...state,
+        projects: state.projects.filter((p) => !action.payload.includes(p.id)),
         lastUpdated: Date.now(),
       };
     case ActionType.updateProject:

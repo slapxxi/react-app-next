@@ -5,6 +5,7 @@ import { SessionAppContext } from '@self/lib/types';
 import App, { Container } from 'next/app';
 import Head from 'next/head';
 
+// TODO: check if user authenticated on the client via Firebase
 class Root extends App {
   public static async getInitialProps({ Component, ctx }: SessionAppContext) {
     let pageProps = {};
