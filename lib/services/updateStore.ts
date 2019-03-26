@@ -35,9 +35,10 @@ function mapProjectsToDBProjects(projects: Project[]): DB['projects'] {
         ...acc,
         [project.id]: {
           title: project.title,
+          status: project.status,
           description: project.description,
           createdAt: project.createdAt.getTime(),
-          updatedAt: null,
+          updatedAt: project.updatedAt ? project.updatedAt.getTime() : null,
         },
       };
     },

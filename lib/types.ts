@@ -69,6 +69,7 @@ export interface DBProject {
   description: string;
   createdAt: EpochTime;
   updatedAt: Maybe<EpochTime>;
+  status: ProjectStatus;
 }
 
 export interface Theme {
@@ -90,6 +91,12 @@ export interface Theme {
   };
 }
 
+export enum ProjectStatus {
+  active,
+  finished,
+  pending,
+}
+
 export interface Project {
   id: ID;
   title: string;
@@ -97,6 +104,7 @@ export interface Project {
   author: User;
   createdAt: Date;
   updatedAt: Maybe<Date>;
+  status: ProjectStatus;
 }
 
 export interface UserCreatedProject {

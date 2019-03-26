@@ -32,6 +32,7 @@ let dropdownMenuStyles = (theme: Theme): SerializedStyles => css`
   font-size: 1.6rem;
   font-weight: normal;
   font-family: ${theme.font.text};
+  z-index: 1;
 `;
 
 let dropdownItemStyles = (theme: Theme): SerializedStyles => css`

@@ -8,10 +8,15 @@ import CogIcon from '@self/components/icons/CogIcon';
 import TrashbinIcon from '@self/components/icons/TrashbinIcon';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
+import Status from '@self/components/Status';
 import useStore from '@self/lib/hooks/useStore';
 import redirectTo from '@self/lib/redirectTo';
-import fetchProject from '@self/lib/services/fetchProject';
-import { Project as IProject, SessionContext, Theme } from '@self/lib/types';
+import {
+  Project as IProject,
+  ProjectStatus,
+  SessionContext,
+  Theme,
+} from '@self/lib/types';
 import Head from 'next/head';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -21,12 +26,9 @@ interface Props {
   projectId: string;
 }
 
-function Project({ project, projectId }: Props) {
+function Project({ projectId }: Props) {
   let { actions, selectors } = useStore();
-
-  if (!project) {
-    project = selectors.selectProject(projectId);
-  }
+  let project = selectors.selectProject(projectId);
 
   function handleDelete() {
     let confirmed = confirm('Delete this project?');
@@ -34,6 +36,12 @@ function Project({ project, projectId }: Props) {
     if (confirmed && project) {
       actions.deleteProject(project);
       Router.push('/projects');
+    }
+  }
+
+  function handleChangeStatus(status: ProjectStatus) {
+    if (project) {
+      actions.updateProject({ ...project, status });
     }
   }
 
@@ -92,28 +100,7 @@ function Project({ project, projectId }: Props) {
               )}
             </Dropdown>
           </PageHeading>
-          <hgroup
-            css={css`
-              display: flex;
-              align-items: center;
-            `}
-          >
-            Created:{' '}
-            <FormatDate
-              date={project.createdAt}
-              css={(theme: Theme) => css`
-                color: ${theme.color.em};
-              `}
-            />{' '}
-            Updated:{' '}
-            <FormatDate
-              date={project.updatedAt}
-              css={(theme: Theme) => css`
-                color: ${theme.color.em};
-              `}
-            />{' '}
-            Author: <Avatar user={project.author} size={24} />
-          </hgroup>
+          <Meta project={project} onChangeStatus={handleChangeStatus} />
         </header>
         <p>{project.description}</p>
       </PageContainer>
@@ -131,24 +118,73 @@ function Project({ project, projectId }: Props) {
   );
 }
 
-Project.getInitialProps = async ({ req, res, query }: SessionContext) => {
-  let project;
+function Meta({
+  project,
+  onChangeStatus,
+}: {
+  project: IProject;
+  onChangeStatus: (status: ProjectStatus) => void;
+}) {
+  let itemStyles = css`
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+
+    & > span {
+      margin-right: 1rem;
+    }
+  `;
+
+  return (
+    <hgroup>
+      <ul
+        css={css`
+          display: flex;
+          align-items: center;
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        `}
+      >
+        <li css={itemStyles}>
+          <span>Status:</span>
+          <Status status={project.status} onChangeStatus={onChangeStatus} />
+        </li>
+        <li css={itemStyles}>
+          <span>Created:</span>
+          <FormatDate
+            date={project.createdAt}
+            css={(theme: Theme) => css`
+              color: ${theme.color.em};
+            `}
+          />
+        </li>
+        <li css={itemStyles}>
+          <span>Updated:</span>
+          <FormatDate
+            date={project.updatedAt}
+            css={(theme: Theme) => css`
+              color: ${theme.color.em};
+            `}
+          />{' '}
+        </li>
+        <li css={itemStyles}>
+          <span>Author:</span>
+          <Avatar user={project.author} size={24} />
+        </li>
+      </ul>
+    </hgroup>
+  );
+}
+
+Project.getInitialProps = async ({ res, query }: SessionContext) => {
   let { projectId } = query as Record<string, string>;
 
   if (res && !projectId) {
     redirectTo(res, '/projects');
   }
 
-  if (req) {
-    let user = req.session.decodedToken;
-
-    if (user && projectId) {
-      let client = req.firebaseServer;
-      project = await fetchProject(client, user, projectId);
-    }
-  }
-
-  return { project, projectId };
+  return { projectId };
 };
 
 export default withAuth(Project);

@@ -5,6 +5,7 @@ import {
   ID,
   PayloadAction,
   Project,
+  ProjectStatus,
   StoreState,
   User,
   UserCreatedProject,
@@ -103,7 +104,7 @@ function storeReducer(state: StoreState, action: StoreAction): StoreState {
       // TODO: replace with immutable implementation
       let index = findIndex(state.projects, (p) => p.id === action.payload.id);
       state.projects.splice(index, 1, { ...action.payload, updatedAt: new Date() });
-      return state;
+      return { ...state, lastUpdated: Date.now() };
     case ActionType.createProject:
       if (state.user) {
         let userCreatedProject = action.payload;
@@ -116,6 +117,7 @@ function storeReducer(state: StoreState, action: StoreAction): StoreState {
               author: state.user,
               createdAt: new Date(),
               updatedAt: null,
+              status: ProjectStatus.active,
             },
           ],
           lastUpdated: Date.now(),

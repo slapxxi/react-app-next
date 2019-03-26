@@ -89,8 +89,8 @@ function validateField(field: string): ValidationError[] {
 
   if (/^\s*$/.test(field)) {
     errors.push({ message: 'should not be empty' });
-  } else if (field.length < 4) {
-    errors.push({ message: 'should contain at least 4 symbols' });
+  } else if (field.length < 3) {
+    errors.push({ message: 'should contain at least 3 symbols' });
   }
 
   return errors;

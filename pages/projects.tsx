@@ -5,6 +5,7 @@ import Dropdown from '@self/components/Dropdown';
 import CogIcon from '@self/components/icons/CogIcon';
 import PageContainer from '@self/components/PageContainer';
 import PageHeading from '@self/components/PageHeading';
+import Status from '@self/components/Status';
 import useStore from '@self/lib/hooks/useStore';
 import { ID, Project, Theme } from '@self/lib/types';
 import isEmpty from 'lodash-es/isEmpty';
@@ -78,6 +79,7 @@ function Projects() {
                   onClick={() => {
                     setActive(false);
                     setEditing(false);
+                    setSelected([]);
                   }}
                 >
                   Cancel
@@ -119,6 +121,12 @@ function Projects() {
                 padding: 1rem 0;
               `}
             >
+              <Status
+                status={p.status}
+                css={css`
+                  margin-right: 1rem;
+                `}
+              />
               {editing && (
                 <input
                   type="checkbox"
@@ -129,7 +137,13 @@ function Projects() {
               <Link href={`/project?projectId=${p.id}`} as={`/project/${p.id}`}>
                 <a>{p.title}</a>
               </Link>
-              <Avatar user={p.author} size={20} />
+              <Avatar
+                user={p.author}
+                size={20}
+                css={css`
+                  margin-left: 1rem;
+                `}
+              />
             </li>
           ))}
         </ul>

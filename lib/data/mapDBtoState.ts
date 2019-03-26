@@ -13,12 +13,13 @@ function mapDBToState(db: DB, user: User): BaseStoreState {
 
 function mapDBProjectstoProjects(dbProjects: DB['projects'], user: User): Project[] {
   return map(dbProjects, (project, id) => {
-    let { title, description, createdAt, updatedAt } = project;
+    let { title, description, createdAt, updatedAt, status } = project;
 
     return {
       id,
       title,
       description,
+      status,
       author: user,
       createdAt: new Date(createdAt),
       updatedAt: updatedAt ? new Date(updatedAt) : null,
