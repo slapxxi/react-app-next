@@ -33,7 +33,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "firebase": "^5.8.4",
-    "firebase-admin": "^7.0.0",
+    "firebase-admin": "^11.4.1",
     "lodash-es": "^4.17.11",
     "next": "^8.0.3",
     "next-transpile-modules": "^2.2.0",
